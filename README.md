@@ -27,3 +27,10 @@ login.html is solely for user authentication.
 profile.html is dedicated to collecting and editing profile information.
 
 dashboard.html is a main page redirecting user to appropriate page they desire. 
+
+
+Romina : 1. Login, register, dashboard
+Nicole : 2. profile
+Anneka:
+Bolu: 
+choose between 3. fuel quote  or 4. fuel history 

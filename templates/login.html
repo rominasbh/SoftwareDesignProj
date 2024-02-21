@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <form action="/path_to_login_logic" method="post" class="login-form">
+            <h4>Welcome Back</h4>
+            <div>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Your Username">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Your Password">
+            </div>
+            <button type="submit">Login</button>
+            <div class="register-link">
+                <p>Don't have an account? <a href="register.html">Register Here</a></p>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

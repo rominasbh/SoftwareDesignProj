@@ -122,7 +122,6 @@ footer {
   height: 100vh;
 }
 .fuel_history-form {
-<<<<<<< HEAD
   /* Similar structure to .login-form for consistency , if you want to change, change all*/
   width: 100%;
   max-width: 400px;
@@ -130,13 +129,4 @@ footer {
   border: 1px solid #cccccc;
   border-radius: 5px;
   background: #f9f9f9;
-=======
-    /* Similar structure to .login-form for consistency , if you want to change, change all*/
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    background: #f9f9f9;
->>>>>>> 5e80762301066d3a1278a4cea59894da894a72ea
 }

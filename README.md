@@ -31,6 +31,5 @@ dashboard.html is a main page redirecting user to appropriate page they desire.
 
 Romina : 1. Login, register, dashboard
 Nicole : 2. profile
-Anneka:
-Bolu: 
-choose between 3. fuel quote  or 4. fuel history 
+Anneka: 4. fuel history 
+Bolu: 3. fuel quote 

@@ -9,7 +9,7 @@
 </head>
 <body>
     <h2>Client Profile Management</h2>
-    <form action="submit_profile.php" method="POST" class="profile-form">
+    <form id="profile-form">
         <label for="full_name">Full Name:</label><br>
         <input type="text" id="full_name" name="full_name" maxlength="50" required><br><br>
         
@@ -33,7 +33,21 @@
         <label for="zip_code">Zip Code:</label><br>
         <input type="text" id="zip_code" name="zip_code" pattern="[0-9]{5,9}" title="Enter a valid zip code (5 to 9 digits)" required><br><br>
         
-        <input type="submit" value="Submit">
+        <button type="submit">Submit</button>
     </form>
+
+    <script>
+        document.getElementById('profile-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Get form data
+            var formData = new FormData(this);
+            
+            // Display form data (you can modify this part to perform other actions)
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+        });
+    </script>
 </body>
 </html>

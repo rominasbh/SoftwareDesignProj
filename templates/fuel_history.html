@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Fuel Quote History</title>
+</head>
+<body>
+
+    <header>
+        <h1>Fuel Quote History</h1>
+    </header>
+
+    <main>
+        <div class="filter-container">
+            <label for="time-filter">Filter by Time:</label>
+            <select id="time-filter" onchange="filterQuotes()">
+                <option value="all">All</option>
+                <option value="10days">Past 10 days</option>
+                <option value="30days">Past 30 days</option>
+                <option value="3months">Past 3 months</option>
+                <option value="6months">Past 6 months</option>
+                <option value="1year">Past year</option>
+            </select>
+        </div>
+
+        <ul class="quote-list">
+            <!-- Each list item represents a fuel quote -->
+            <li class="quote-item" data-date="[date]">
+                <span class="quote-date">Date: [date]</span>
+                <span class="quote-amount">Amount: [amount]</span>
+                <button class="view-quote-btn">View Quote</button>
+            </li>
+            <!-- Repeat this structure for each fuel quote -->
+        </ul>
+    </main>
+
+    <footer>
+        <!-- Footer content if needed -->
+    </footer>
+
+    <script>
+        function filterQuotes() {
+            const filterValue = document.getElementById('time-filter').value;
+            const quoteItems = document.querySelectorAll('.quote-item');
+
+            quoteItems.forEach(item => {
+                const quoteDate = new Date(item.getAttribute('data-date'));
+                const currentDate = new Date();
+
+                switch (filterValue) {
+                    case '10days':
+                        item.style.display = quoteDate > new Date(currentDate - 10 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
+                        break;
+                    case '30days':
+                        item.style.display = quoteDate > new Date(currentDate - 30 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
+                        break;
+                    case '3months':
+                        item.style.display = quoteDate > new Date(currentDate - 3 * 30 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
+                        break;
+                    case '6months':
+                        item.style.display = quoteDate > new Date(currentDate - 6 * 30 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
+                        break;
+                    case '1year':
+                        item.style.display = quoteDate > new Date(currentDate - 12 * 30 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
+                        break;
+                    default:
+                        item.style.display = 'list-item';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

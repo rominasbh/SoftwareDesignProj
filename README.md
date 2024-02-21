@@ -18,6 +18,10 @@ dashboard.html: 3 options : edit profile -> redirect to profile.html
 obtain quote history -> redirect to fuel_history.html
 obtain fuel quote -> redirect to fuel_quote.html 
 
+fuel quote: fill in the form as requested, submit, obtain a fuel quote report
+
+fuel quote summary: list all the past fuel quotes, user filters and chooses desired report, clicks and views the report. 
+
 Overview:
 
 register.html is solely for signing up new users.

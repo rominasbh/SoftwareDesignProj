@@ -44,6 +44,14 @@ footer {
 }
 
 
+.login-header {
+    
+    font-size: 4rem; 
+    margin-bottom:-10rem ; 
+   
+}
+
+
 
 /* Register Page Styles */
 .register-container{
@@ -82,6 +90,16 @@ footer {
     border-radius: 5px;
     background: #f9f9f9;
 }
+.logout-btn {
+    color: white !important;
+    background-color: #007bff; /* Or any color that fits your design */
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none; /* Removes underline from links */
+}
+
+
 
 
 

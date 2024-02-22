@@ -9,6 +9,9 @@
       <link rel="stylesheet" href="static/css/style.css">
     <link rel="stylesheet" href="../static/css/styles.css" />
   </head>
+<<<<<<< HEAD
+  <body class="fuel_quote-container">
+=======
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
       <!-- Company Name or Logo -->
@@ -38,34 +41,35 @@
           </ul>
       </div>
   </nav>
+>>>>>>> e63ed871720359284c495660ff277b6b4c8be75b
     <div>
-      <section id="fuel_quote-container-left">
+      <section id="left">
         <h2>Request Quote</h2>
         <form method="get" class="quote-form">
-          <div class="request-form">
+          <div class="fuel_quote-form">
             <label>Gallons: </label>
             <input type="text" id="gallons" name="gallons" />
           </div>
-          <div class="request-form">
+          <div class="fuel_quote-form">
             <label>Delivery Date: </label>
             <input type="date" id="delivery_date" name="delivery_date" />
           </div>
-          <div class="request-form">
+          <div class="fuel_quote-form">
             <label>Address: </label>
             <input type="text" id="address" name="address" readonly />
           </div>
-          <div class="request-form">
+          <div class="fuel_quote-form">
             <label>City: </label>
             <input type="text" id="city" name="city" readonly />
           </div>
-          <div class="request-form">
+          <div class="fuel_quote-form">
             <label>State: </label>
             <input type="text" id="state" name="state" readonly />
           </div>
           <button type="submit">Get Quote</button>
         </form>
       </section>
-      <section id="fuel_quote-container-right">
+      <section id="right">
         <h2>Fuel Quote</h2>
         <div class="quote-form">
           <p>Estimated Cost: $<span id="cost">00.00</span></p>

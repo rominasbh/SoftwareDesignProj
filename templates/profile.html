@@ -9,10 +9,23 @@
     <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                 <div id="flash-messages">
+                    {% for message in messages %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %}
+                 </div>
+            {% endif %}
+        {% endwith %}
+
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <!-- Company Name or Logo -->
+        {% if profile_complete %}
         <a class="navbar-brand" href="/dashboard">FuelMetrics</a>
-    
+        {% else %}
+        <a class="navbar-brand" href="#" onclick="alert('Please complete your profile before continuing.'); return false;">FuelMetrics</a>
+        {% endif %}
         <!-- Navbar Toggler for smaller screens -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,14 +35,24 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <!-- Nav Links -->
             <ul class="navbar-nav">
+                {% if profile_complete %}
                 <li class="nav-item">
                     <a class="nav-link" href="/fuel_quote">Get Quote</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/fuel_history">Quote History</a>
                 </li>
+                {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/profile">Edit Profile</a>
+                    <a class="nav-link" href="#" onclick="alert('Please complete your profile before continuing.'); return false;">Get Quote</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="alert('Please complete your profile before continuing.'); return false;">Quote History</a>
+                </li>
+
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
@@ -38,7 +61,8 @@
         </div>
     </nav>
     <h2>Client Profile Management</h2>
-    <form id="profile-form">
+    <form id="profile-form" action="/profile" method="post">
+        
         <label for="full_name">Full Name:</label><br>
         <input type="text" id="full_name" name="full_name" maxlength="50" required><br><br>
         
@@ -64,18 +88,31 @@
         
         <button type="submit">Submit</button>
     </form>
+    <div id="form-output"></div>
 
     <script>
         document.getElementById('profile-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
+           // event.preventDefault();
             
             // Get form data
             var formData = new FormData(this);
-            
-            // Display form data (you can modify this part to perform other actions)
+
+            // Reference to the output container
+            var output = document.getElementById('form-output');
+            output.innerHTML = ''; // Clear previous output
+
+            // Create list to display form data
+            var list = document.createElement('ul');
+
+            // Display form data
             for (var pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
+                var listItem = document.createElement('li');
+                listItem.textContent = pair[0] + ': ' + pair[1];
+                list.appendChild(listItem);
             }
+
+            // Append the list to the output container
+            output.appendChild(list)
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

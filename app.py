@@ -59,18 +59,34 @@ def login():
             session['username'] = username  # Store username in session
             if is_profile_complete(username):
                 return redirect(url_for('dashboard'))
+            
             return redirect(url_for('profile'))
         else:
             flash('Invalid username or password.')
+    
+
     return render_template('login.html')
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
+    username = session.get('username')
+    if not username or username not in users_db:
+        flash('User not found. Please login again.')
+        return redirect(url_for('login'))
     if request.method == 'POST':
-        # Assume profile completion logic here
-        users_db[session['username']]['profile_complete'] = True  # Mark profile as complete
-        return redirect(url_for('dashboard'))
-    return render_template('profile.html')
+        # Profile completion logic
+        users_db[username]['profile_complete'] = True
+        flash('Profile Complete, continue to FuelMetrics.')  # Flash message
+        #return redirect(url_for('complete'))  # Redirect to profile or dashboard
+        return redirect(url_for('dashboard'))  # Redirect to profile or dashboard
+    #return render_template('profile.html')
+
+    # Check profile completion status on every request
+    profile_complete = is_profile_complete(username)
+    return render_template('profile.html', profile_complete=profile_complete)
+
+
 
 @app.route('/dashboard')
 def dashboard():
@@ -91,7 +107,7 @@ def fuel_history():
 @app.route('/logout')
 def logout():
     # Remove 'username' from session
-    session.pop('username', None)  
+    session.pop(session.get('username'), None)  
     # Redirect to the login page
     return redirect(url_for('login'))
 

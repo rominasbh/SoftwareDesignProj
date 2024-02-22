@@ -6,7 +6,7 @@
     <title>User Dashboard</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="static/css/styles.css"> <!-- Your custom styles -->
+    <link rel="stylesheet" href="static/css/styles.css"> 
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
@@ -29,6 +29,9 @@
                     <a class="nav-link" href="/fuel_history">Quote History</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/profile">Edit Profile</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
             </ul>
@@ -41,7 +44,7 @@
         <h1>Welcome to Your Dashboard</h1>
         <p>Select an option below to get started:</p>
         <div class="list-group">
-            <a href="/fuel_quote" class="list-group-item list-group-item-action">Generate Quote Report</a>
+            <a href="/fuel_quote" class="list-group-item list-group-item-action">New Fuel Quote</a>
             <a href="/fuel_history" class="list-group-item list-group-item-action">View Fuel Quote History</a>
             <a href="/profile" class="list-group-item list-group-item-action">Edit Profile Information</a>
         </div>

@@ -107,6 +107,11 @@ footer {
 }
 
 /* fuel_quote Page Styles */
+.fuel_quote-container nav {
+  border: solid black;
+  justify-content: baseline;
+  align-items: baseline;
+}
 .fuel_quote-container {
   display: flex;
   width: 100%;
@@ -119,12 +124,15 @@ footer {
 .fuel_quote-container #left,
 .fuel_quote-container #right {
   display: inline-block;
-  width: 10rem;
+  width: 60%;
+  padding: 0 20px;
+  max-width: fit-content;
 }
 
 .fuel_quote-container #left {
   border: solid red;
-  flex: 1;
+  /* position: ; */
+  /* flex: 1; */
 }
 
 .fuel_quote-container #right {
@@ -135,7 +143,7 @@ footer {
 
 .fuel_quote-container button {
   color: blue;
-  width: 50%;
+  width: auto;
   justify-content: inherit;
   align-items: inherit;
 }
@@ -145,8 +153,7 @@ footer {
   padding: 10px;
   margin: 5px;
   border-radius: 8px;
-  /* width: 50%;
-  max-width: 50%; */
+  width: inherit;
 }
 
 .fuel_quote-container form div label {
@@ -156,13 +163,19 @@ footer {
 .fuel_quote-container #gallons,
 #delivery_date,
 #address {
-  width: 100%;
+  width: inherit;
+}
+
+.fuel_quote-container #city_state {
+  /* display: inline-block; */
+  border: dotted black;
+  width: 50%;
 }
 
 .fuel_quote-container #city,
 #state {
   display: inline-block;
-  width: 30%;
+  width: 40%;
 }
 /* .fuel_quote-form {
   Similar structure to .login-form for consistency , if you want to change, change all

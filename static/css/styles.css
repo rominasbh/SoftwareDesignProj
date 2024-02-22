@@ -42,15 +42,10 @@ footer {
   background: #f9f9f9;
 }
 
-
 .login-header {
-    
-    font-size: 4rem; 
-    margin-bottom:-10rem ; 
-   
+  font-size: 4rem;
+  margin-bottom: -10rem;
 }
-
-
 
 /* Register Page Styles */
 .register-container {
@@ -86,15 +81,13 @@ footer {
   background: #f9f9f9;
 }
 .logout-btn {
-    color: white !important;
-    background-color: #007bff; /* Or any color that fits your design */
-    padding: 5px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-decoration: none; /* Removes underline from links */
+  color: white !important;
+  background-color: #007bff; /* Or any color that fits your design */
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none; /* Removes underline from links */
 }
-
-
 
 /* Profile Page Styles */
 .profile-container {
@@ -120,6 +113,7 @@ footer {
   align-items: center;
   height: 100vh;
 }
+
 .fuel_quote-form {
   /* Similar structure to .login-form for consistency , if you want to change, change all*/
   width: 100%;
@@ -130,8 +124,19 @@ footer {
   background: #f9f9f9;
 }
 
-.fuel_history-container section {
-  margin: 20px;
+#fuel_quote-container-left,
+#fuel_quote-container-right {
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+}
+
+#fuel_quote-container-left {
+  border: solid red;
+}
+
+#fuel_quote-container-right {
+  border: solid blue;
 }
 
 /* fuel_history Page Styles */

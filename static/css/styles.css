@@ -1,46 +1,45 @@
 /* Global Styles */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 /* Header Styles */
 header {
-    background-color: #007bff;
-    color: #ffffff;
-    padding: 20px;
-    text-align: center;
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 20px;
+  text-align: center;
 }
 
 /* Footer Styles */
 footer {
-    background-color: #333;
-    color: #ffffff;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+  background-color: #333;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
-
-
 
 /* Login Page Styles */
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .login-form {
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    background: #f9f9f9;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background: #f9f9f9;
 }
 
 
@@ -54,41 +53,37 @@ footer {
 
 
 /* Register Page Styles */
-.register-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .register-form {
-    /* Similar structure to .login-form for consistency , if you want to change, change all*/
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    background: #f9f9f9;
+  /* Similar structure to .login-form for consistency , if you want to change, change all*/
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background: #f9f9f9;
 }
-
-
 
 /* Dashboard Page Styles */
-.dashboard-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .dashboard-form {
-    /* Similar structure to .login-form for consistency , if you want to change, change all*/
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    background: #f9f9f9;
+  /* Similar structure to .login-form for consistency , if you want to change, change all*/
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background: #f9f9f9;
 }
 .logout-btn {
     color: white !important;
@@ -101,61 +96,57 @@ footer {
 
 
 
-
-
 /* Profile Page Styles */
-.profile-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .profile-form {
-    /* Similar structure to .login-form for consistency , if you want to change, change all*/
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    background: #f9f9f9;
+  /* Similar structure to .login-form for consistency , if you want to change, change all*/
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background: #f9f9f9;
 }
-
-
 
 /* fuel_quote Page Styles */
-.fuel_quote-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-
+.fuel_quote-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .fuel_quote-form {
-    /* Similar structure to .login-form for consistency , if you want to change, change all*/
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    background: #f9f9f9;
+  /* Similar structure to .login-form for consistency , if you want to change, change all*/
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background: #f9f9f9;
 }
 
-
+.fuel_history-container section {
+  margin: 20px;
+}
 
 /* fuel_history Page Styles */
-.fuel_history-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+.fuel_history-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .fuel_history-form {
-    /* Similar structure to .login-form for consistency , if you want to change, change all*/
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    background: #f9f9f9;
+  /* Similar structure to .login-form for consistency , if you want to change, change all*/
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background: #f9f9f9;
 }

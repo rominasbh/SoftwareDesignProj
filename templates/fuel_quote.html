@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="static/css/styles.css" />
+  </head>
+  <body>
+    <div>
+      <section class="quote section" id="left">
+        <h2>Request Quote</h2>
+        <form action="" method="get" class="quote-form">
+          <div class="request-form">
+            <label>Gallons: </label>
+            <input type="text" id="gallons" name="gallons" />
+          </div>
+          <div class="request-form">
+            <label>Delivery Date: </label>
+            <input type="date" id="delivery_date" name="delivery_date" />
+          </div>
+          <div class="request-form">
+            <label>Address: </label>
+            <input type="text" id="address" name="address" readonly />
+          </div>
+          <div class="request-form">
+            <label>City: </label>
+            <input type="text" id="city" name="city" readonly />
+          </div>
+          <div class="request-form">
+            <label>State: </label>
+            <input type="text" id="state" name="state" readonly />
+          </div>
+          <button type="submit">Get Quote</button>
+        </form>
+      </section>
+      <section class="quote section" id="right">
+        <h2>Fuel Quote</h2>
+        <div class="quote-form">
+          <p>Estimated Cost: $<span id="cost">00.00</span></p>
+          <p>Gallons: <span id="gallons">00.00</span></p>
+          <p>Price Per Gallon: $<span id="price">00.00</span></p>
+          <p>Delivery: <span id="delivery">00.00</span></p>
+          <p>Total Cost: $<span id="total">00.00</span></p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

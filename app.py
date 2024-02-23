@@ -138,7 +138,7 @@ def fuel_history():
 @app.route('/logout')
 def logout():
     # Remove 'username' from session
-    session.pop(session.get('username'), None)  
+    session.pop('username', None)  
     # Redirect to the login page
     return redirect(url_for('login'))
 

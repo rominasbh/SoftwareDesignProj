@@ -113,6 +113,7 @@
         
         if (profileForm.style.display === "none") {
             profileForm.style.display = "block";
+            formChanged = false;
             profileInfo.style.display = "none";
         } else {
             profileForm.style.display = "none";
@@ -133,14 +134,26 @@
                 profileForm.addEventListener('change', function() {
                     formChanged = true;
                 });
+
+                profileForm.addEventListener('submit', function(event) {
+            // Prevent the default form submission if you're handling the form data via JavaScript/AJAX
+            // event.preventDefault();
+
+            // Reset the flag to prevent warning on submit
+            formChanged = false;
+        });
+    }
+
+                
                 window.addEventListener('beforeunload', function(e) {
                     if (formChanged) {
                         e.preventDefault();
                         e.returnValue = '';
                     }
                 });
-            }
-        });
+            
+        
+            });
         </script>
         
     

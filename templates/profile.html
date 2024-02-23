@@ -8,7 +8,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/style.css">
 </head>
-<body>
+<body class="profile-page">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                  <div id="flash-messages">
@@ -61,7 +61,9 @@
         </div>
     </nav>
     <h2>Client Profile Management</h2>
-    <form id="profile-form" action="/profile" method="post">
+
+    
+    <form id="profile-form" method="Post" style="{{ 'display: none;' if profile_complete else 'display: block;' }}">
         
         <label for="full_name">Full Name:</label><br>
         <input type="text" id="full_name" name="full_name" maxlength="50" required><br><br>
@@ -78,43 +80,70 @@
         <label for="state">State:</label><br>
         <select id="state" name="state" required>
             <option value="">Select State</option>
-            <option value="AL">Texas</option>
-            <option value="AK">New York</option>
+            <option value="TX">Texas</option>
+            <option value="NY">New York</option>
             <!-- Add more options for other states -->
         </select><br><br>
         
         <label for="zip_code">Zip Code:</label><br>
         <input type="text" id="zip_code" name="zip_code" pattern="[0-9]{5,9}" title="Enter a valid zip code (5 to 9 digits)" required><br><br>
         
-        <button type="submit">Submit</button>
+        <button type="submit" id="submit-button">Submit</button>
     </form>
+    {% if profile_complete %}
+    <div id="profile-info" style="display: block;">
+        <p>Full Name: {{ user.profile_info.full_name }}</p>
+        <p>Address 1: {{ user.profile_info.address1 }}</p>
+        <p>Address 2: {{ user.profile_info.address2 }}</p>
+        <p>City: {{ user.profile_info.city }}</p>
+        <p>State: {{ user.profile_info.state }}</p>
+        <p>Zip Code: {{ user.profile_info.zip_code }}</p>
+        
+        <button type= 'click' id="edit-profile">Edit Info</button>
+    </div>
+    {% endif %}
     <div id="form-output"></div>
 
     <script>
-        document.getElementById('profile-form').addEventListener('submit', function(event) {
-           // event.preventDefault();
-            
-            // Get form data
-            var formData = new FormData(this);
+        document.addEventListener('DOMContentLoaded', function() {
+    // Function to toggle visibility
+    function toggleEdit() {
+        var profileForm = document.getElementById('profile-form');
+        var profileInfo = document.getElementById('profile-info');
+        
+        if (profileForm.style.display === "none") {
+            profileForm.style.display = "block";
+            profileInfo.style.display = "none";
+        } else {
+            profileForm.style.display = "none";
+            profileInfo.style.display = "block";
+        }
+    }
 
-            // Reference to the output container
-            var output = document.getElementById('form-output');
-            output.innerHTML = ''; // Clear previous output
-
-            // Create list to display form data
-            var list = document.createElement('ul');
-
-            // Display form data
-            for (var pair of formData.entries()) {
-                var listItem = document.createElement('li');
-                listItem.textContent = pair[0] + ': ' + pair[1];
-                list.appendChild(listItem);
+    // Attach event listener to Edit Info button
+    var editButton = document.getElementById('edit-profile');
+    if (editButton) {
+        editButton.addEventListener('click', toggleEdit);
+    }
+        
+            // Warn before navigating away if the form changed
+            var formChanged = false;
+            var profileForm = document.getElementById('profile-form');
+            if (profileForm) {
+                profileForm.addEventListener('change', function() {
+                    formChanged = true;
+                });
+                window.addEventListener('beforeunload', function(e) {
+                    if (formChanged) {
+                        e.preventDefault();
+                        e.returnValue = '';
+                    }
+                });
             }
-
-            // Append the list to the output container
-            output.appendChild(list)
         });
-    </script>
+        </script>
+        
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

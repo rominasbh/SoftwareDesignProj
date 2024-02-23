@@ -1,4 +1,10 @@
 /* Global Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body,
 html {
   margin: 0;
@@ -107,85 +113,80 @@ footer {
 }
 
 /* fuel_quote Page Styles */
-.fuel_quote-container nav {
-  border: solid black;
-  justify-content: baseline;
-  align-items: baseline;
-}
 .fuel_quote-container {
   display: flex;
   width: 100%;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   height: 100vh;
-  border: dotted green;
+  /* border: dotted green; */
 }
 
 .fuel_quote-container #left,
-.fuel_quote-container #right {
-  display: inline-block;
-  width: 60%;
-  padding: 0 20px;
-  max-width: fit-content;
+#right {
+  width: 50%;
+  /* margin: auto; */
+  margin-top: 50px;
+  margin-bottom: 120px;
+  /* margin-right: 50px; */
+  padding: 20px 15px;
+  border-radius: 10px;
+  box-shadow: 10px 5px 10px #ccc;
 }
 
 .fuel_quote-container #left {
-  border: solid red;
-  /* position: ; */
-  /* flex: 1; */
+  /* border: 2px solid black; */
+  margin-left: 20px;
+  margin-right: 30px;
 }
 
 .fuel_quote-container #right {
-  border: solid blue;
-  margin: 0 0 0 10px;
-  float: right;
+  /* border: 2px solid blue; */
+  margin-left: 20px;
+  margin-right: 20px;
+  text-align: center;
 }
 
-.fuel_quote-container button {
-  color: blue;
-  width: auto;
-  justify-content: inherit;
-  align-items: inherit;
+.fuel_quote-container .city_state {
+  /* border: 1px solid red; */
+  display: flex;
+  margin: 5px 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.fuel_quote-container form div {
-  border: solid purple;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 8px;
-  width: inherit;
+.fuel_quote-container #city {
+  width: 70%;
 }
 
-.fuel_quote-container form div label {
-  display: block;
+.fuel_quote-container #state {
+  width: 30%;
 }
 
-.fuel_quote-container #gallons,
-#delivery_date,
-#address {
-  width: inherit;
+.fuel_quote-container #btn {
+  /* border: 1px solid black; */
+  /* position: relative; */
+  height: 50px;
+  margin: 2px 90px;
+  text-align: center;
+  padding: 10px 0;
 }
 
-.fuel_quote-container #city_state {
-  /* display: inline-block; */
-  border: dotted black;
-  width: 50%;
+.fuel_quote-container #btn button {
+  color: white;
+  background-color: rgb(9, 121, 173);
+  border-radius: 6px;
 }
 
-.fuel_quote-container #city,
-#state {
-  display: inline-block;
-  width: 40%;
-}
-/* .fuel_quote-form {
-  Similar structure to .login-form for consistency , if you want to change, change all
+.fuel_quote-form {
+  /* Similar structure to .login-form for consistency , if you want to change, change all */
   width: 100%;
   max-width: 400px;
   padding: 20px;
   border: 1px solid #cccccc;
   border-radius: 5px;
   background: #f9f9f9;
-} */
+}
 
 /* fuel_history Page Styles */
 .fuel_history-container {

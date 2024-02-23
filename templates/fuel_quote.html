@@ -4,67 +4,88 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-      <!-- Bootstrap CSS -->
-      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet" />
     <link rel="stylesheet" href="../static/css/styles.css" />
   </head>
-  <body class="fuel_quote-container">
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
       <!-- Company Name or Logo -->
       <a class="navbar-brand" href="/dashboard">FuelMetrics</a>
-  
+
       <!-- Navbar Toggler for smaller screens -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarResponsive"
+        aria-controls="navbarResponsive"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
       </button>
-  
+
       <!-- Collapsible content -->
       <div class="collapse navbar-collapse" id="navbarResponsive">
-          <!-- Nav Links -->
-          <ul class="navbar-nav">
-              <li class="nav-item">
-                  <a class="nav-link" href="/fuel_quote">Get Quote</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/fuel_history">Quote History</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/profile">Profile</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/logout">Logout</a>
-              </li>
-          </ul>
+        <!-- Nav Links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/fuel_quote">Get Quote</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/fuel_history">Quote History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+        </ul>
       </div>
-  </nav>
-    <div>
+    </nav>
+    <!-- Fuel Quote Page -->
+    <div class="fuel_quote-container">
+      <!-- Left Side -->
       <section id="left">
         <h2>Request Quote</h2>
+        <!-- Quote Form -->
         <form method="get" class="quote-form">
           <div class="fuel_quote-form">
-            <label>Gallons: </label>
-            <input type="text" id="gallons" name="gallons" />
+            <label for="gallons"
+              >Gallons:
+              <input
+                type="text"
+                id="gallons"
+                name="gallons"
+                title="Enter the amount of gallons" />
+            </label>
           </div>
           <div class="fuel_quote-form">
-            <label>Delivery Date: </label>
-            <input type="date" id="delivery_date" name="delivery_date" />
-          </div>
+            <label for="delivery_date">Delivery Date: <input type="date" id="delivery_date" name="delivery_date" />
+          </div> </label>
+            
+          <!--For address and city and state to be displayed-->
           <div class="fuel_quote-form">
-            <label>Address: </label>
-            <input type="text" id="address" name="address" readonly />
+            <label for="address">Address: <input type="text" id="address" name="address" readonly /></label>
+            
           </div>
-          <div class="fuel_quote-form" id="city_state">
-            <label>City: </label>
-            <input type="text" id="city" name="city" readonly />
+          <div class="fuel_quote-form city_state">
+            <label for="city">City: <input type="text" id="city" name="city" readonly /></label>
+            
           </div>
-          <div class="fuel_quote-form" id="city_state">
-            <label>State: </label>
-            <input type="text" id="state" name="state" readonly />
+          <div class="fuel_quote-form city_state">
+            <label for="state">State: <input type="text" id="state" name="state" readonly /></label>
+            
           </div>
-          <button type="submit">Get Quote</button>
+          <div id="btn">
+            <button type="submit">Get Quote</button>
+          </div>
         </form>
       </section>
+      <!-- Right Side -->
       <section id="right">
         <h2>Fuel Quote</h2>
         <div class="quote-form">

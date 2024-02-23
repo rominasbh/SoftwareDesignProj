@@ -60,7 +60,10 @@
             </ul>
         </div>
     </nav>
-    <h2>Client Profile Management</h2>
+    
+
+    <div class="container mt-4">
+        <h2>Client Profile Management</h2>
 
     
     <form id="profile-form" method="Post" style="{{ 'display: none;' if profile_complete else 'display: block;' }}">
@@ -102,7 +105,7 @@
         <button type= 'click' id="edit-profile">Edit Info</button>
     </div>
     {% endif %}
-    <div id="form-output"></div>
+</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

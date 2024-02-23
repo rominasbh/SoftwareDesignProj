@@ -5,7 +5,30 @@ app.secret_key = 'your_secret_key'  # Needed for session management
 
 # Dummy database of users for illustration
 users_db = {
-    'user1': {'password': 'pass1', 'profile_complete': True},
+    'user1': {
+        'password': 'pass1', 'profile_complete': True,
+        'profile_info': {
+            'full_name': 'Romina s',
+            'address1': '3607 washington ave',
+            'address2': '',
+            'city': 'Houston',
+            'state': 'Texas',
+            'zip_code': '78734',
+        }
+    },
+    'user2': {
+        'password': 'pass2',
+        'profile_complete': False,
+        'profile_info': {
+            'full_name': '',
+            'address1': '',
+            'address2': '',
+            'city': '',
+            'state': '',
+            'zip_code': '',
+        }
+    }
+
     # Add other users 
 }
 
@@ -42,7 +65,7 @@ def register():
         # Proceed with registration if username is not taken
         
         # Save the user with  password in the dummy database
-        users_db[username] = {'password': password, 'profile_complete': False}
+        users_db[username] = {'password': password, 'profile_complete': False, 'profile_info': {}}
 
         flash('Registration successful. Please log in.')
         return redirect(url_for('login'))
@@ -70,21 +93,29 @@ def login():
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
+    
     username = session.get('username')
+    print(username)
     if not username or username not in users_db:
         flash('User not found. Please login again.')
         return redirect(url_for('login'))
+
+    #user = users_db.get(username)
+    user = users_db[username]
+    print(user)
     if request.method == 'POST':
-        # Profile completion logic
-        users_db[username]['profile_complete'] = True
-        flash('Profile Complete, continue to FuelMetrics.')  # Flash message
-        #return redirect(url_for('complete'))  # Redirect to profile or dashboard
-        return redirect(url_for('dashboard'))  # Redirect to profile or dashboard
-    #return render_template('profile.html')
+        # update user profile info in database 
+
+        #users_db[username]['profile_complete'] = True
+        user['profile_info'].update(request.form.to_dict())
+        user['profile_complete']=True
+        print(user['profile_complete'])
+        flash('Profile Saved, continue to FuelMetrics.')  # Flash message
+        return redirect(url_for('profile'))  # Redirect to profile to see changes 
 
     # Check profile completion status on every request
     profile_complete = is_profile_complete(username)
-    return render_template('profile.html', profile_complete=profile_complete)
+    return render_template('profile.html',user=user, profile_complete=profile_complete)
 
 
 

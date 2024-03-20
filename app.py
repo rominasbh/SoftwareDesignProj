@@ -14,7 +14,11 @@ users_db = {
             'city': 'Houston',
             'state': 'Texas',
             'zip_code': '78734',
-        }
+        },
+        'fuel_quote_history': [
+            {'date': '2023-03-15', 'gallons_requested': 100, 'total_amount_due': 200},
+            {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 300}
+        ]
     },
     'user2': {
         'password': 'pass2',
@@ -26,7 +30,8 @@ users_db = {
             'city': '',
             'state': '',
             'zip_code': '',
-        }
+        },
+        'fuel_quote_history': []
     }
 
     # Add other users 

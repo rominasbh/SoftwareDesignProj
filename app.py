@@ -16,8 +16,8 @@ users_db = {
             'zip_code': '78734',
         },
         'fuel_quote_history': [
-            {'date': '2023-03-15', 'gallons_requested': 100, 'total_amount_due': 200},
-            {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 300}
+            {'date': '2023-03-15', 'gallons_requested': 100, 'total_amount_due': 200,'date_js': '2023-03-15'},
+            {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 300,'date_js': '2023-03-20'}
         ]
     },
     'user2': {
@@ -134,10 +134,28 @@ def fuel_quote():
     return render_template('fuel_quote.html')
 
 
+# @app.route('/fuel_history')
+# def fuel_history():
+#     # Logic to fetch and display fuel quote history
+
+#     return render_template('fuel_history.html')
+
 @app.route('/fuel_history')
 def fuel_history():
-    # Logic to fetch and display fuel quote history
-    return render_template('fuel_history.html')
+    username = session.get('username')
+    if not username or username not in users_db:
+        flash('Please log in to view fuel quote history.')
+        return redirect(url_for('login'))
+
+    # Fetch user's fuel quote history from the database
+    user_quotes = users_db.get(username, {}).get('fuel_quote_history', [])
+    
+    # Format the dates in the fuel quote history for easy handling in JavaScript
+    for quote in user_quotes:
+        # Assume the date is stored in 'YYYY-MM-DD' format; adjust if necessary
+        quote['date_js'] = quote['date']
+
+    return render_template('fuel_history.html', user_quotes=user_quotes)
 
 
 @app.route('/logout')

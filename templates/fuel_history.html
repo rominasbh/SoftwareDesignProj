@@ -56,14 +56,18 @@
         </div>
 
         <ul class="quote-list">
-            <!-- Each list item represents a fuel quote -->
-            <li class="quote-item" data-date="[date]">
-                <span class="quote-date">Date: [date]</span>
-                <span class="quote-amount">Amount: [amount]</span>
-                <button class="view-quote-btn">View Quote</button>
+            {% for quote in user_quotes %}
+            <li class="quote-item" data-date="{{ quote.date_js }}">
+                <span class="quote-date">Date: {{ quote.date }}</span>
+                <span class="quote-gallons">Gallons Requested: {{ quote.gallons_requested }}</span>
+                <span class="quote-amount">Total Amount Due: ${{ quote.total_amount_due }}</span>
+                <!-- Implement viewing quote details as needed -->
             </li>
-            <!-- Repeat this structure for each fuel quote -->
+            {% else %}
+            <li>No fuel quotes found.</li>
+            {% endfor %}
         </ul>
+        
     </main>
 
     <footer>

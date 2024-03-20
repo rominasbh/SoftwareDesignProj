@@ -135,7 +135,7 @@ def dashboard():
 #     # No change needed for form submission handling, as it's done client-side
 #     return render_template('fuel_quote.html')
 
-@app.route('/fuel_quote', methods=['GET'])
+@app.route('/fuel_quote', methods=['GET', 'POST'])
 def fuel_quote():
     username = session.get('username')
     if not username or username not in users_db:
@@ -145,6 +145,7 @@ def fuel_quote():
     user_profile_info = users_db[username]['profile_info']
 
     return render_template('fuel_quote.html', profile_info=user_profile_info)
+
 
 
 # @app.route('/fuel_history')

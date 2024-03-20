@@ -60,8 +60,11 @@
             <li class="quote-item" data-date="{{ quote.date_js }}">
                 <span class="quote-date">Date: {{ quote.date }}</span>
                 <span class="quote-gallons">Gallons Requested: {{ quote.gallons_requested }}</span>
-                <span class="quote-amount">Total Amount Due: ${{ quote.total_amount_due }}</span>
+                <span class="quote-total">Total Amount Due: ${{ quote.total_amount_due }}</span>
+                <span class="quote-delivery">Delivery Fee: ${{ quote.total_amount_due }}</span>
+                <span class="quote-price">Price Per Gallon: ${{ quote.total_amount_due }}</span>
                 <!-- Implement viewing quote details as needed -->
+                
             </li>
             {% else %}
             <li>No fuel quotes found.</li>

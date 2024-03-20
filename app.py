@@ -16,8 +16,10 @@ users_db = {
             'zip_code': '78734',
         },
         'fuel_quote_history': [
-            {'date': '2023-03-15', 'gallons_requested': 100, 'total_amount_due': 200,'date_js': '2023-03-15'},
-            {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 300,'date_js': '2023-03-20'}
+            {'date': '2023-03-15', 'gallons_requested': 100, 'total_amount_due': 200,'date_js': '2023-03-15', 'price': '150', 'delivery': '200'},
+            {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 300,'date_js': '2023-03-20', 'price': '100', 'delivery': '200'} 
+
+
         ]
     },
     'user2': {
@@ -154,6 +156,7 @@ def fuel_history():
     for quote in user_quotes:
         # Assume the date is stored in 'YYYY-MM-DD' format; adjust if necessary
         quote['date_js'] = quote['date']
+        
 
     return render_template('fuel_history.html', user_quotes=user_quotes)
 

@@ -130,10 +130,21 @@ def profile():
 def dashboard():
     return render_template('dashboard.html')
 
+# @app.route('/fuel_quote', methods=['GET'])
+# def fuel_quote():
+#     # No change needed for form submission handling, as it's done client-side
+#     return render_template('fuel_quote.html')
+
 @app.route('/fuel_quote', methods=['GET'])
 def fuel_quote():
-    # No change needed for form submission handling, as it's done client-side
-    return render_template('fuel_quote.html')
+    username = session.get('username')
+    if not username or username not in users_db:
+        flash('Please log in to access the fuel quote page.')
+        return redirect(url_for('login'))
+
+    user_profile_info = users_db[username]['profile_info']
+
+    return render_template('fuel_quote.html', profile_info=user_profile_info)
 
 
 # @app.route('/fuel_history')

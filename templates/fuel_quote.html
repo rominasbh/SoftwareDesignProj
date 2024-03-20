@@ -69,15 +69,13 @@
             
           <!--For address and city and state to be displayed-->
           <div class="fuel_quote-form">
-            <label for="address">Address: <input type="text" id="address" name="address" readonly /></label>
-            
+            <label for="address">Address: <input type="text" id="address" name="address" value="{{ profile_info.address1 }}" readonly /></label>
           </div>
           <div class="fuel_quote-form city_state">
-            <label for="city">City: <input type="text" id="city" name="city" readonly /></label>
-            
-            <label for="state">State: <input type="text" id="state" name="state" readonly /></label>
-            
+            <label for="city">City: <input type="text" id="city" name="city" value="{{ profile_info.city }}" readonly /></label>
+            <label for="state">State: <input type="text" id="state" name="state" value="{{ profile_info.state }}" readonly /></label>
           </div>
+
           <div id="btn">
             <button type="submit">Get Quote</button>
           </div>

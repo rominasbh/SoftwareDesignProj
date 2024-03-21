@@ -10,7 +10,7 @@ function validateForm() {
     gallonsError.style.display = "inline";
     return false;
   }
-  gallonError.style.display = "none";
+  gallonsError.style.display = "none";
 
   return true;
 }
@@ -47,12 +47,17 @@ function updateFuelQuote() {
   document.getElementById("gallons-shown").innerHTML = `${gallons.toFixed(2)}`;
 }
 
-fuelGallons.addEventListener("input", validateForm);
-fuelGallons.addEventListener("input", updateFuelQuote);
-delivery_dateInput.addEventListener("input", updateFuelQuote);
+//fuelGallons.addEventListener("input", validateForm);
+//fuelGallons.addEventListener("input", updateFuelQuote);
+//delivery_dateInput.addEventListener("input", updateFuelQuote);
 
 /*----------Button Submit----------*/
-const button = document.getElementById("btn");
+const button = document.getElementById("button");
+button.addEventListener("click", function() {
+  if(validateForm()) {
+    updateFuelQuote();
+  }
+});
 
 function cardSubmit() {}
 

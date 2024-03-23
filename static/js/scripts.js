@@ -25,14 +25,14 @@ function updateFuelQuote() {
   //base price calulation
   const pricePerGallon = 3.05;
   const basePrice = pricePerGallon * gallons;
-  const estimatedCost = basePrice + deliveryFee;
-
+  const estimatedCost = basePrice;
+  console.log(basePrice);
   //tax fee
   const taxRate = 0.0775;
   const taxFee = basePrice * taxRate;
 
   //total price
-  const totalPrice = estimatedCost + taxFee;
+  const totalPrice = deliveryFee + taxFee + basePrice;
 
   //update display
   costDisplay.innerHTML = `${estimatedCost.toFixed(2)}`;
@@ -47,17 +47,17 @@ function updateFuelQuote() {
   document.getElementById("gallons-shown").innerHTML = `${gallons.toFixed(2)}`;
 }
 
-//fuelGallons.addEventListener("input", validateForm);
-//fuelGallons.addEventListener("input", updateFuelQuote);
-//delivery_dateInput.addEventListener("input", updateFuelQuote);
+fuelGallons.addEventListener("input", validateForm);
+fuelGallons.addEventListener("input", updateFuelQuote);
+delivery_dateInput.addEventListener("input", updateFuelQuote);
 
 /*----------Button Submit----------*/
 const button = document.getElementById("button");
-button.addEventListener("click", function() {
-  if(validateForm()) {
-    updateFuelQuote();
-  }
-});
+// button.addEventListener("click", function() {
+//   if(validateForm()) {
+//     updateFuelQuote();
+//   }
+// });
 
 function cardSubmit() {}
 

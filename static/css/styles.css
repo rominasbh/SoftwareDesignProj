@@ -132,6 +132,7 @@ footer {
   padding: 20px 15px;
   border-radius: 10px;
   box-shadow: 10px 5px 10px #ccc;
+  overflow-wrap: break-word;
 }
 
 .fuel_quote-container #left {
@@ -155,15 +156,6 @@ footer {
   text-align: left;
 }
 
-.fuel_quote-container #right .quote-form {
-  /* border: 5px solid red; */
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-}
-
 .fuel_quote-container .city_state {
   /* border: 1px solid red; */
   display: flex;
@@ -176,15 +168,6 @@ footer {
   /* align-items: center; */
 }
 
-/* .fuel_quote-container #city,
-#state,
-#zip_code {
-  width: 75%;
-} */
-
-/* .fuel_quote-container #gallons {
-  width: 30%;
-} */
 .fuel_quote-container #city {
   /* border: 1px solid black; */
   width: 35%;
@@ -198,6 +181,17 @@ footer {
 .fuel_quote-container #zip_code {
   /* border: 1px solid green; */
   width: 15%;
+}
+
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .fuel_quote-container #btn {
@@ -220,6 +214,28 @@ footer {
 .fuel_quote-container button:hover {
   background-color: rgb(8, 167, 240);
   cursor: pointer;
+}
+
+.fuel_quote-container #right .quote-form {
+  /* border: 5px solid red; */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.fuel_quote-container #total {
+  font-weight: bold;
+  font-size: 35px;
+}
+
+.fuel_quote-container #cost-shown,
+#gallons-shown,
+#price-shown,
+#delivery-shown,
+#tax-shown {
+  font-size: 20px;
 }
 
 /* .fuel_quote-form {

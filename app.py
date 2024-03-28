@@ -142,8 +142,45 @@ def fuel_quote():
         flash('Please log in to access the fuel quote page.')
         return redirect(url_for('login'))
 
-    user_profile_info = users_db[username]['profile_info']
+    if request.method == 'POST':
+        # Process the submitted form data
+        gallons_requested = request.form.get('gallons', type=float)
+        delivery_date = request.form.get('delivery_date')
+        
+        #delivery fee
+        deliveryFee = 1.75;
 
+        #base price calulation
+        pricePerGallon = 3.05;
+        basePrice = pricePerGallon * gallons_requested;
+        estimatedCost = basePrice;
+
+        #tax fee
+        taxRate = 0.0775;
+        taxFee = basePrice * taxRate;
+
+        #total price
+        totalPrice = deliveryFee + taxFee + basePrice;
+
+        # Save the quote to the user's history
+        users_db[username]['fuel_quote_history'].append({
+            'date': delivery_date,
+            'gallons_requested': gallons_requested,
+            'total_amount_due': totalPrice,
+            'date_js': delivery_date,
+            'price': estimatedCost,
+            #'price_per_gallon': price_per_gallon,
+            'delivery': deliveryFee
+            #'tax': tax,
+
+        })
+
+        flash('Fuel quote saved successfully.\nView in Quote History')
+        # Redirect to the fuel history page or somewhere else to avoid form resubmission issues
+        return redirect(url_for('fuel_quote'))
+
+    # For a GET request, just display the form
+    user_profile_info = users_db[username]['profile_info']
     return render_template('fuel_quote.html', profile_info=user_profile_info)
 
 

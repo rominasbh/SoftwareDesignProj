@@ -47,17 +47,42 @@ function updateFuelQuote() {
   document.getElementById("gallons-shown").innerHTML = `${gallons.toFixed(2)}`;
 }
 
-fuelGallons.addEventListener("input", validateForm);
-fuelGallons.addEventListener("input", updateFuelQuote);
-delivery_dateInput.addEventListener("input", updateFuelQuote);
+//making it interactive? once the desired price w desired date is found, click get quote to save the quote
+//fuelGallons.addEventListener("input", validateForm);
+//fuelGallons.addEventListener("input", updateFuelQuote);
+//delivery_dateInput.addEventListener("input", updateFuelQuote);
+
+// this function makes sure that both date and gallon are filled in before displaying the quote and its
+//interactive, changing the gallon changes the price and we might need to implement changing the date
+//also change the price.
+function validateAndUpdateQuote() {
+  const gallonsValue = fuelGallons.value.trim();
+  const deliveryDateValue = delivery_dateInput.value.trim();
+
+  
+  const isValidGallons = validateForm();
+  //may want to check if the date is in right format but may not need too cuz we use calander
+  const isValidDeliveryDate = deliveryDateValue !== '';
+
+  if (isValidGallons && isValidDeliveryDate) {
+    updateFuelQuote();
+  }
+
+}
+
+// Attach validateAndUpdateQuote to the input event listeners
+fuelGallons.addEventListener("input", validateAndUpdateQuote);
+delivery_dateInput.addEventListener("input", validateAndUpdateQuote);
 
 /*----------Button Submit----------*/
 const button = document.getElementById("button");
-// button.addEventListener("click", function() {
-//   if(validateForm()) {
-//     updateFuelQuote();
-//   }
-// });
+// may have to fix this logic 
+ button.addEventListener("click", function() {
+  
+   if(validateForm()) {
+     updateFuelQuote();
+   }
+ });
 
 function cardSubmit() {}
 

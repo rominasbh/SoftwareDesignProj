@@ -67,6 +67,9 @@
           <div class="fuel_quote-form">
             <label for="delivery_date">Delivery Date: </label>
             <input type="date" id="delivery_date" name="delivery_date" />
+            <span id="dateError" style="color: red; display: none;"
+            >Please enter a valid date.</span
+            >
           </div>
 
           <!--For address and city and state to be displayed-->
@@ -104,12 +107,21 @@
           </div>
 
           <div id="btn">
-            <button type="button" id="button">Get Quote</button>
+            <button type="click" id="button">Save Quote</button>
           </div>
         </form>
       </section>
       <!-- Right Side -->
       <section id="right">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+            {{ message|replace('\n', '<br>')|safe }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+            
         <h2>Fuel Quote</h2>
         <div class="quote-form">
           <p>$<span id="total">--</span></p>

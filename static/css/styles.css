@@ -248,19 +248,32 @@ input[type="date"] {
   background: #f9f9f9;
 } */
 
-/* fuel_history Page Styles */
-.fuel_history-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.fuel-history-container {
+  margin: 0 auto; 
+  max-width: 800px; 
+  padding: 0 15px;
+  text-align: center; 
 }
-.fuel_history-form {
-  /* Similar structure to .login-form for consistency , if you want to change, change all*/
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-  background: #f9f9f9;
+
+.filter-container {
+  border: 1px solid #ccc; 
+  padding: 10px;
 }
+.filter-output-container {
+  border: 1px solid #ccc; 
+  padding: 20px; 
+  max-width: 800px;
+  margin: 0 auto; 
+}
+.quote-table th,
+.quote-table td {
+    padding: 17px; 
+    text-align: center; 
+    border-bottom: 2px solid rgb(9, 121, 173);
+}
+
+.quote-table th:first-child,
+.quote-table td:first-child {
+    text-align: left; 
+}
+

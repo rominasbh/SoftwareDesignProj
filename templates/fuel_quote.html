@@ -67,6 +67,9 @@
           <div class="fuel_quote-form">
             <label for="delivery_date">Delivery Date: </label>
             <input type="date" id="delivery_date" name="delivery_date" />
+            <span id="date_error" style="color: red; display: none;"
+              >Please enter a valid date.</span
+            >
           </div>
 
           <!--For address and city and state to be displayed-->
@@ -102,23 +105,29 @@
               value="{{profile_info.zip_code}}"
               readonly />
           </div>
-
-          <div id="btn">
-            <button type="button" id="button">Get Quote</button>
-          </div>
         </form>
       </section>
       <!-- Right Side -->
       <section id="right">
         <h2>Fuel Quote</h2>
         <div class="quote-form">
-          <p>$<span id="total">--</span></p>
-          <p style="font-weight: bold">DUE TODAY</p>
-          <p>Estimated Cost: $<span id="cost-shown">--</span></p>
-          <p>Gallons: <span id="gallons-shown">--</span></p>
-          <p>Price Per Gallon: $<span id="price-shown">--</span> per gallon</p>
-          <p>Delivery: <span id="delivery-shown">--</span></p>
-          <p>Tax: $<span id="tax-shown">--</span></p>
+          <div class="quote-details">
+            <p><span id="client-name">--</span></p>
+            <p>$<span id="total">--</span></p>
+            <p style="font-weight: bold">DUE TODAY</p>
+            <p><span id="client-location">--</span></p>
+            <p>Estimated Cost: $<span id="cost-shown">--</span></p>
+            <p>Gallons Requested: <span id="gallons-shown">--</span></p>
+            <p>
+              Price Per Gallon: $<span id="price-shown">--</span> per gallon
+            </p>
+            <p>Profit Margin: <span id="profit-margin">--</span>%</p>
+            <p>Delivery Date: <span id="delivery-shown">--</span></p>
+            <p>Tax: $<span id="tax-shown">--</span></p>
+          </div>
+          <div id="quote-actions">
+            <button type="button" id="confirm-quote">Confirm Quote</button>
+          </div>
         </div>
       </section>
     </div>

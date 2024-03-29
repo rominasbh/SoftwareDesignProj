@@ -3,6 +3,12 @@ const fuelGallons = document.getElementById("gallons");
 const gallonsError = document.getElementById("gallonsError");
 const delivery_dateInput = document.getElementById("delivery_date");
 const costDisplay = document.getElementById("cost-shown");
+const userName = document.getElementById("client-name");
+const price = document.getElementById("price-shown");
+const delivery = document.getElementById("delivery-shown");
+const total = document.getElementById("total");
+const tax = document.getElementById("tax-shown");
+const shownGallons = document.getElementById("gallons-shown");
 
 function validateForm() {
   gallonsError.style.display = "none";
@@ -36,15 +42,18 @@ function updateFuelQuote() {
 
   //update display
   costDisplay.innerHTML = `${estimatedCost.toFixed(2)}`;
-  document.getElementById("price-shown").innerHTML = `${pricePerGallon.toFixed(
-    2
-  )}`;
-  document.getElementById("delivery-shown").innerHTML = `${deliveryFee.toFixed(
-    2
-  )}`;
-  document.getElementById("total").innerHTML = `${totalPrice.toFixed(2)}`;
-  document.getElementById("tax-shown").innerHTML = `${taxFee.toFixed(2)}`;
-  document.getElementById("gallons-shown").innerHTML = `${gallons.toFixed(2)}`;
+  price.innerHTML = `${pricePerGallon.toFixed(2)}`;
+  delivery.innerHTML = `${deliveryFee.toFixed(2)}`;
+  total.innerHTML = `${totalPrice.toFixed(2)}`;
+  tax.innerHTML = `${taxFee.toFixed(2)}`;
+  shownGallons.innerHTML = `${gallons.toFixed(2)}`;
+
+  console.log("Estimate: " + costDisplay.innerHTML);
+  console.log("Delivery: " + delivery.innerHTML);
+  console.log("Gallons: " + shownGallons.innerHTML);
+  console.log("Total: " + total.innerHTML);
+  console.log("Tax: " + tax.innerHTML);
+  console.log("Price: " + price.innerHTML);
 }
 
 fuelGallons.addEventListener("input", validateForm);
@@ -62,5 +71,30 @@ const button = document.getElementById("button");
 function cardSubmit() {}
 
 // button.addEventListener("click", cardSubmit);
+
+/*----------Set Date----------*/
+// function dateSelection() {
+//   const day = new Date();
+//   const dd = String(day.getDate()).padStart(2, "0");
+//   const mm = String(day.getMonth() + 1).padStart(2, "0");
+//   const yyyy = day.getFullYear();
+//   const today = mm + "-" + dd + "-" + yyyy;
+//   const selectedDate = document.getElementById("delivery_date");
+//   document.getElementById("delivery_date").setAttribute("min", today);
+//   document.getElementById("date_error").style.display = "none";
+
+//   if (selectedDate < day) {
+//     console.log("Error Date: " + selectedDate.innerHTML);
+//     document.getElementById("date_error").style.display = "inline";
+//     return false;
+//   }
+//   document.getElementById("date_error").style.display = "none";
+
+//   console.log(today);
+//   // console.log("Error Date: " + selectedDate.innerHTML);
+//   return true;
+// }
+
+// document.addEventListener("DOMContentLoaded", dateSelection);
 
 /*-------------------Fuel Quote Update-------------------*/

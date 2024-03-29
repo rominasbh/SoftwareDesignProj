@@ -96,20 +96,64 @@ footer {
 }
 
 /* Profile Page Styles */
-.profile-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+body {
+  background-color: #f8f9fa; /* Light gray background */
 }
-.profile-form {
-  /* Similar structure to .login-form for consistency , if you want to change, change all*/
-  width: 100%;
-  max-width: 400px;
+
+.navbar {
+  background-color: #007bff; /* Blue navbar */
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  color: #f8f9fa; /* Change color on hover */
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
-  border: 1px solid #cccccc;
+}
+
+.profile-form {
+  background-color: #ffffff; /* White background */
+  padding: 20px;
   border-radius: 5px;
-  background: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+
+.profile-form label {
+  font-weight: bold;
+}
+
+.profile-form input[type="text"],
+.profile-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.profile-form button[type="submit"] {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profile-form button[type="submit"]:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
 /* fuel_quote Page Styles */
@@ -248,19 +292,32 @@ input[type="date"] {
   background: #f9f9f9;
 } */
 
-/* fuel_history Page Styles */
-.fuel_history-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.fuel-history-container {
+  margin: 0 auto; 
+  max-width: 800px; 
+  padding: 0 15px;
+  text-align: center; 
 }
-.fuel_history-form {
-  /* Similar structure to .login-form for consistency , if you want to change, change all*/
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-  background: #f9f9f9;
+
+.filter-container {
+  border: 1px solid #ccc; 
+  padding: 10px;
 }
+.filter-output-container {
+  border: 1px solid #ccc; 
+  padding: 20px; 
+  max-width: 800px;
+  margin: 0 auto; 
+}
+.quote-table th,
+.quote-table td {
+    padding: 17px; 
+    text-align: center; 
+    border-bottom: 2px solid rgb(9, 121, 173);
+}
+
+.quote-table th:first-child,
+.quote-table td:first-child {
+    text-align: left; 
+}
+

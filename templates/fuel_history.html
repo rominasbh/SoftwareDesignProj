@@ -38,11 +38,14 @@
         </div>
     </nav>
     
-    <div class="container mt-5">
+    <div class="container mt-5 fuel-history-container">
         <h1>Fuel Quote History</h1>
     </div>
 
-    <main>
+<main>
+    <!-- Container for the filter and output -->
+    <div class="container filter-output-container">
+        <!-- Filter -->
         <div class="filter-container">
             <label for="time-filter">Filter by Time:</label>
             <select id="time-filter" onchange="filterQuotes()">
@@ -54,27 +57,40 @@
                 <option value="1year">Past year</option>
             </select>
         </div>
-
-        <ul class="quote-list">
-            {% for quote in user_quotes %}
-            <li class="quote-item" data-date="{{ quote.date_js }}">
-                <span class="quote-date">Date: {{ quote.date }}</span>
-                <span class="quote-gallons">Gallons Requested: {{ quote.gallons_requested }}</span>
-                <span class="quote-total">Total Amount Due: ${{ quote.total_amount_due }}</span>
-                <span class="quote-delivery">Delivery Fee: ${{ quote.total_amount_due }}</span>
-                <span class="quote-price">Price Per Gallon: ${{ quote.total_amount_due }}</span>
-                <!-- Implement viewing quote details as needed -->
-                
-            </li>
-            {% else %}
-            <li>No fuel quotes found.</li>
-            {% endfor %}
-        </ul>
-        
-    </main>
+        <!-- Output of the filter in a table -->
+        <table class="quote-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Gallons Requested</th>
+                    <th>Price Per Gallon</th>
+                    <th>Delivery Fee</th>
+                    <th>Total Amount Due</th>
+                    <!-- Add more table headings as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for quote in user_quotes %}
+                <tr>
+                    <td>{{ quote.date }}</td>
+                    <td>{{ quote.gallons_requested }}</td>
+                    <td>{{ quote.price_per_gallon }}</td>
+                    <td>{{ quote.delivery }}</td>
+                    <td>{{ quote.total_amount_due }}</td>
+                    <!-- Add more table cells as needed -->
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No fuel quotes found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+    
 
     <footer>
-        <!-- Footer content if needed -->
     </footer>
 
     <script>

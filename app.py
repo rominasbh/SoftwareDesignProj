@@ -16,8 +16,8 @@ users_db = {
             'zip_code': '78734',
         },
         'fuel_quote_history': [
-            {'date': '2023-03-15', 'gallons_requested': 100, 'total_amount_due': 200,'date_js': '2023-03-15', 'price': '150', 'delivery': '200'},
-            {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 300,'date_js': '2023-03-20', 'price': '100', 'delivery': '200'} 
+            {'date': '2023-03-15', 'gallons_requested': 100, 'total_amount_due': 505,'date_js': '2023-03-15', 'price': '305', 'delivery': '200','price_per_gallon':'3.05'},
+            {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 657.5,'date_js': '2023-03-20', 'price': '475.5', 'delivery': '200','price_per_gallon':'3.05'} 
 
 
         ]
@@ -169,7 +169,7 @@ def fuel_quote():
             'total_amount_due': totalPrice,
             'date_js': delivery_date,
             'price': estimatedCost,
-            #'price_per_gallon': price_per_gallon,
+            'price_per_gallon': pricePerGallon,
             'delivery': deliveryFee
             #'tax': tax,
 

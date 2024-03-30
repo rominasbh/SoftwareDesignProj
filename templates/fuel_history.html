@@ -71,7 +71,7 @@
             </thead>
             <tbody>
                 {% for quote in user_quotes %}
-                <tr>
+                <tr class="quote-item"> <!-- Add the quote-item class here -->
                     <td>{{ quote.date }}</td>
                     <td>{{ quote.gallons_requested }}</td>
                     <td>{{ quote.price_per_gallon }}</td>
@@ -84,7 +84,7 @@
                     <td colspan="5">No fuel quotes found.</td>
                 </tr>
                 {% endfor %}
-            </tbody>
+            </tbody>            
         </table>
     </div>
 </main>
@@ -95,34 +95,36 @@
 
     <script>
         function filterQuotes() {
-            const filterValue = document.getElementById('time-filter').value;
-            const quoteItems = document.querySelectorAll('.quote-item');
+    const filterValue = document.getElementById('time-filter').value;
+    const quoteRows = document.querySelectorAll('.quote-table tbody tr');
 
-            quoteItems.forEach(item => {
-                const quoteDate = new Date(item.getAttribute('data-date'));
-                const currentDate = new Date();
+    const currentDate = new Date();
 
-                switch (filterValue) {
-                    case '10days':
-                        item.style.display = quoteDate > new Date(currentDate - 10 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
-                        break;
-                    case '30days':
-                        item.style.display = quoteDate > new Date(currentDate - 30 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
-                        break;
-                    case '3months':
-                        item.style.display = quoteDate > new Date(currentDate - 3 * 30 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
-                        break;
-                    case '6months':
-                        item.style.display = quoteDate > new Date(currentDate - 6 * 30 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
-                        break;
-                    case '1year':
-                        item.style.display = quoteDate > new Date(currentDate - 12 * 30 * 24 * 60 * 60 * 1000) ? 'list-item' : 'none';
-                        break;
-                    default:
-                        item.style.display = 'list-item';
-                }
-            });
+    quoteRows.forEach(row => {
+        const quoteDate = new Date(row.querySelector('td:first-child').textContent); // Extracting date from the first column of the row
+
+        switch (filterValue) {
+            case '10days':
+                row.style.display = quoteDate > new Date(currentDate - 10 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                break;
+            case '30days':
+                row.style.display = quoteDate > new Date(currentDate - 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                break;
+            case '3months':
+                row.style.display = quoteDate > new Date(currentDate - 3 * 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                break;
+            case '6months':
+                row.style.display = quoteDate > new Date(currentDate - 6 * 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                break;
+            case '1year':
+                row.style.display = quoteDate > new Date(currentDate - 12 * 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                break;
+            default:
+                row.style.display = 'table-row';
         }
+    });
+}
+
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

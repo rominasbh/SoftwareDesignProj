@@ -17,9 +17,11 @@ users_db = {
         },
         'fuel_quote_history': [
             {'date': '2023-03-15', 'gallons_requested': 100, 'total_amount_due': 505,'date_js': '2023-03-15', 'price': '305', 'delivery': '200','price_per_gallon':'3.05'},
-            {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 657.5,'date_js': '2023-03-20', 'price': '475.5', 'delivery': '200','price_per_gallon':'3.05'} 
-
-
+            {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 657.5,'date_js': '2023-03-20', 'price': '475.5', 'delivery': '200','price_per_gallon':'3.05'},
+            {'date': '2023-05-15', 'gallons_requested': 200, 'total_amount_due': 810,'date_js': '2023-03-15', 'price': '305', 'delivery': '200','price_per_gallon':'3.05'},
+            {'date': '2023-10-20', 'gallons_requested': 150, 'total_amount_due': 657.5,'date_js': '2023-03-20', 'price': '475.5', 'delivery': '200','price_per_gallon':'3.05'},
+            {'date': '2024-01-15', 'gallons_requested': 200, 'total_amount_due': 810,'date_js': '2023-03-15', 'price': '305', 'delivery': '200','price_per_gallon':'3.05'},
+            {'date': '2024-03-28', 'gallons_requested': 160, 'total_amount_due': 688,'date_js': '2023-03-20', 'price': '475.5', 'delivery': '200','price_per_gallon':'3.05'}    
         ]
     },
     'user2': {

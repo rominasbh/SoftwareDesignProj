@@ -253,6 +253,8 @@ input[type="date"] {
   background-color: rgb(9, 121, 173);
   border-radius: 6px;
   transition: all 0.3s ease-in-out;
+  border: none;
+  padding: 10px 20px;
 }
 
 .fuel_quote-container button:hover {
@@ -282,6 +284,14 @@ input[type="date"] {
   font-size: 20px;
 }
 
+.fuel_quote-container .pop_up {
+  position: absolute;
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  display: none;
+}
+
 /* .fuel_quote-form {
   Similar structure to .login-form for consistency , if you want to change, change all
   width: 100%;
@@ -293,31 +303,30 @@ input[type="date"] {
 } */
 
 .fuel-history-container {
-  margin: 0 auto; 
-  max-width: 800px; 
+  margin: 0 auto;
+  max-width: 800px;
   padding: 0 15px;
-  text-align: center; 
+  text-align: center;
 }
 
 .filter-container {
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
   padding: 10px;
 }
 .filter-output-container {
-  border: 1px solid #ccc; 
-  padding: 20px; 
+  border: 1px solid #ccc;
+  padding: 20px;
   max-width: 800px;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 .quote-table th,
 .quote-table td {
-    padding: 17px; 
-    text-align: center; 
-    border-bottom: 2px solid rgb(9, 121, 173);
+  padding: 17px;
+  text-align: center;
+  border-bottom: 2px solid rgb(9, 121, 173);
 }
 
 .quote-table th:first-child,
 .quote-table td:first-child {
-    text-align: left; 
+  text-align: left;
 }
-

@@ -137,6 +137,48 @@ function gallonDateValidation() {
 fuelGallons.addEventListener("input", gallonDateValidation);
 delivery_dateInput.addEventListener("input", gallonDateValidation);
 
+const confirmBtn = document.getElementById("confirm-quote");
+const yesBtn = document.getElementById("yes_btn");
+const noBtn = document.getElementById("no_btn");
+const vqhBtn = document.getElementById("view_quote_history");
+const newQuoteBtn = document.getElementById("new_quote");
+
+// confirmBtn.addEventListener("click", () => {
+//   document.getElementById("confirm_popup").style.display = "block";
+// });
+// confirmBtn.addEventListener("click", updateFuelQuote);
+
+confirmBtn.addEventListener("click", () => {
+  const gallonsInput = document.getElementById("gallons").value.trim();
+  const deliveryDateInput = document
+    .getElementById("delivery_date")
+    .value.trim();
+  if (gallonsInput !== "" && deliveryDateInput !== "") {
+    document.getElementById("confirm_popup").style.display = "block";
+    updateFuelQuote(); // Call the updateFuelQuote function only if inputs are valid
+  } else {
+    alert("Please enter values for gallons and delivery date.");
+  }
+});
+
+yesBtn.addEventListener("click", () => {
+  document.getElementById("confirm_popup").style.display = "none";
+  document.getElementById("saved_quote").style.display = "block";
+});
+
+noBtn.addEventListener("click", () => {
+  document.getElementById("confirm_popup").style.display = "none";
+  document.getElementById("saved_quote").style.display = "none";
+});
+
+vqhBtn.addEventListener("click", () => {
+  location = "/fuel_history";
+});
+
+newQuoteBtn.addEventListener("click", () => {
+  location = "/fuel_quote";
+});
+
 //making it interactive? once the desired price w desired date is found, click get quote to save the quote
 // fuelGallons.addEventListener("input", validateForm);
 // fuelGallons.addEventListener("input", updateFuelQuote);

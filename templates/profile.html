@@ -109,7 +109,7 @@
             {% if profile_complete %}
                 <div id="profile-info" style="display: block;">
                     <div class="profile-details container"> <!-- Added container class here -->
-                        <p><strong>Full Name:</strong> Nicole Ospina</p> <!-- Modified this line -->
+                        <p><strong>Full Name:</strong> {{user.profile_info.full_name}}</p> <!-- Modified this line -->
                         <p><strong>Address 1:</strong> {{ user.profile_info.address1 }}</p>
                         <p><strong>Address 2:</strong> {{ user.profile_info.address2 }}</p>
                         <p><strong>City:</strong> {{ user.profile_info.city }}</p>

@@ -35,11 +35,11 @@
             <form action="/register" method="post">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required placeholder="Choose a Username">
+                    <input type="text" class="form-control" id="username" name="username" required minlength="5" maxlength="25" pattern="[A-Za-z0-9]+" title="Username should be 5-25 characters long and contain only letters and numbers." placeholder="Choose a Username">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required placeholder="Create a Password">
+                    <input type="password" class="form-control" id="password" name="password" required minlength="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain at least one number, one uppercase and one lowercase letter, and at least 8 or more characters" placeholder="Create a Password">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Register</button>
                 <div class="mt-4 text-center">

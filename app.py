@@ -82,28 +82,7 @@ def is_password_valid(password):
 
 
 
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']   # Get password from form
-#         hashed_password = hash_password(password)  # Hash the password
 
-#         # Check for existing user
-#         existing_user = User.query.filter_by(username=username).first()
-#         if existing_user:
-#             flash('Username already exists. Please choose a different one.')
-#             return redirect(url_for('register'))
-
-#         # Save the new user
-#         new_user = User(username=username, password=hashed_password)  # Use hashed password
-#         db.session.add(new_user)
-#         db.session.commit()
-
-#         flash('Registration successful. Please log in.')
-#         return redirect(url_for('login'))
-
-#     return render_template('register.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -140,22 +119,7 @@ def register():
     return render_template('register.html')
 
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']
-#         if authenticate(username, password):
-#             session['username'] = username  # Store username in session
-#             if is_profile_complete(username):
-#                 return redirect(url_for('dashboard'))
-            
-#             return redirect(url_for('profile'))
-#         else:
-#             flash('Invalid username or password.')
-    
 
-#     return render_template('login.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -179,6 +143,60 @@ def login():
 
 
 
+# @app.route('/profile', methods=['GET', 'POST'])
+# def profile():
+#     username = session.get('username')
+#     if not username:
+#         flash('User not found. Please log in again.')
+#         return redirect(url_for('login'))
+
+#     user = User.query.filter_by(username=username).first()
+#     if not user:
+#         flash('User not found. Please log in again.')
+#         return redirect(url_for('login'))
+
+#     if request.method == 'POST':
+#         # Retrieve or create profile info
+#         profile_info = user.profile_info
+#         if not profile_info:
+#             profile_info = ProfileInfo(user_id=user.id)
+#             db.session.add(profile_info)
+
+#         # Update user profile info from form data
+#         profile_info.full_name = request.form.get('full_name', profile_info.full_name)
+#         profile_info.address1 = request.form.get('address1', profile_info.address1)
+#         profile_info.address2 = request.form.get('address2', profile_info.address2)
+#         profile_info.city = request.form.get('city', profile_info.city)
+#         profile_info.state = request.form.get('state', profile_info.state)
+#         profile_info.zip_code = request.form.get('zip_code', profile_info.zip_code)
+
+#         # Mark profile as complete if not already set
+#         if not user.profile_complete:
+#             user.profile_complete = True
+
+#         # Commit changes to the database
+#         db.session.commit()
+
+#         flash('Profile Saved. Continue to FuelMetrics.')
+#         return redirect(url_for('profile'))  # Redirect to profile to see changes
+
+#     # Pass profile_complete directly, no need to check separately since it's an attribute of the user
+#     return render_template('profile.html', user=user, profile_complete=user.profile_complete)
+
+
+
+def validate_address(address):
+    """Check if the address contains both letters and numbers."""
+    return bool(re.search(r'[0-9]', address)) and bool(re.search(r'[a-zA-Z]', address))
+
+def validate_name_or_city(name):
+    """Check if the name or city contains only letters and spaces."""
+    return bool(re.search(r'^[A-Za-z\s]+$', name))
+
+def validate_zip_code(zip_code):
+    """Check if the zip code is valid (5 to 9 digits)."""
+    return bool(re.search(r'^[0-9]{5}(-[0-9]{4})?$', zip_code))
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     username = session.get('username')
@@ -192,23 +210,40 @@ def profile():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        # Retrieve or create profile info
-        profile_info = user.profile_info
-        if not profile_info:
-            profile_info = ProfileInfo(user_id=user.id)
-            db.session.add(profile_info)
+        full_name = request.form.get('full_name', '').strip()
+        address1 = request.form.get('address1', '').strip()
+        address2 = request.form.get('address2', '').strip()
+        city = request.form.get('city', '').strip()
+        state = request.form.get('state', '').strip()
+        zip_code = request.form.get('zip_code', '').strip()
 
-        # Update user profile info from form data
-        profile_info.full_name = request.form.get('full_name', profile_info.full_name)
-        profile_info.address1 = request.form.get('address1', profile_info.address1)
-        profile_info.address2 = request.form.get('address2', profile_info.address2)
-        profile_info.city = request.form.get('city', profile_info.city)
-        profile_info.state = request.form.get('state', profile_info.state)
-        profile_info.zip_code = request.form.get('zip_code', profile_info.zip_code)
+        # Server-side validation checks
+        if not (full_name and validate_name_or_city(full_name) and
+                address1 and validate_address(address1) and
+                city and validate_name_or_city(city) and
+                state and
+                zip_code and validate_zip_code(zip_code)):
+            flash('Please fill all required fields correctly.')
+            return render_template('profile.html', user=user, profile_complete=user.profile_complete)
+
+        if address2 and not validate_address(address2):
+            flash('Secondary address must include both letters and numbers if provided.')
+            return render_template('profile.html', user=user, profile_complete=user.profile_complete)
+
+        # Update or create profile info
+        if not user.profile_info:
+            user.profile_info = ProfileInfo(user_id=user.id)
+            db.session.add(user.profile_info)
+
+        user.profile_info.full_name = full_name
+        user.profile_info.address1 = address1
+        user.profile_info.address2 = address2
+        user.profile_info.city = city
+        user.profile_info.state = state
+        user.profile_info.zip_code = zip_code
 
         # Mark profile as complete if not already set
-        if not user.profile_complete:
-            user.profile_complete = True
+        user.profile_complete = True
 
         # Commit changes to the database
         db.session.commit()
@@ -216,7 +251,6 @@ def profile():
         flash('Profile Saved. Continue to FuelMetrics.')
         return redirect(url_for('profile'))  # Redirect to profile to see changes
 
-    # Pass profile_complete directly, no need to check separately since it's an attribute of the user
     return render_template('profile.html', user=user, profile_complete=user.profile_complete)
 
 

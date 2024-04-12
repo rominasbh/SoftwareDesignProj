@@ -69,22 +69,23 @@
                 <form id="profile-form" method="Post" style="{{ 'display: none;' if profile_complete else 'display: block;' }}">
                     <div class="form-group">
                         <label for="full_name">Full Name:</label>
-                        <input type="text" class="form-control" id="full_name" name="full_name" maxlength="50" required>
+                        <input type="text" class="form-control" id="full_name" name="full_name" maxlength="50" pattern="^[A-Za-z\s]+$" title="Full name should only contain letters and spaces." required>
                     </div>
                 
                     <div class="form-group">
                         <label for="address1">Address 1:</label>
-                        <input type="text" class="form-control" id="address1" name="address1" maxlength="100" required>
+                        <input type="text" class="form-control" id="address1" name="address1" maxlength="100" pattern="(?=.*[0-9])(?=.*[a-zA-Z]).*" title="Address must include both letters and numbers" required>
+
                     </div>
                 
                     <div class="form-group">
                         <label for="address2">Address 2:</label>
-                        <input type="text" class="form-control" id="address2" name="address2" maxlength="100">
+                        <input type="text" class="form-control" id="address2" name="address2" maxlength="100" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\s]*$" title="Address must include letters and numbers">
                     </div>
                 
                     <div class="form-group">
                         <label for="city">City:</label>
-                        <input type="text" class="form-control" id="city" name="city" maxlength="100" required>
+                        <input type="text" class="form-control" id="city" name="city" maxlength="100" pattern="^[A-Za-z\s]+$" title="City should only contain letters and spaces." required>
                     </div>
                 
                     <div class="form-group">
@@ -99,7 +100,7 @@
                 
                     <div class="form-group">
                         <label for="zip_code">Zip Code:</label>
-                        <input type="text" class="form-control" id="zip_code" name="zip_code" pattern="[0-9]{5,9}" title="Enter a valid zip code (5 to 9 digits)" required>
+                        <input type="text" class="form-control" id="zip_code" name="zip_code" pattern="^[0-9]{5}(-[0-9]{4})?$" title="Enter a valid zip code (5 digits or 9 digits with a hyphen)" required>
                     </div>
                 
                     <button type="submit" class="btn btn-primary" id="submit-button">Submit</button>

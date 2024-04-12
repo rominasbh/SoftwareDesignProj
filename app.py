@@ -1,16 +1,43 @@
-from flask import Flask, request, redirect, url_for, render_template, session, flash
+from flask import Flask, request, redirect, url_for, render_template, session, flash, Blueprint
 from models import db, User, FuelQuote, ProfileInfo
 from datetime import datetime
-from config import Config
+# from config import Config
+from config import Config, TestConfig
 from flask_migrate import Migrate
 import bcrypt
 import re
 
-app = Flask(__name__)
-app.config.from_object(Config)
-db.init_app(app)
-migrate = Migrate(app, db)
+# app = Flask(__name__)
+# app.config.from_object(Config)
+# db.init_app(app)
+# migrate = Migrate(app, db)
 
+
+# def create_app(test_config=False):
+#     app = Flask(__name__)
+#     if test_config:
+#         app.config.from_object(TestConfig)
+#     else:
+#         app.config.from_object(Config)
+#     # Initialize other extensions and components
+#     db.init_app(app)
+#     migrate = Migrate(app, db)
+#     return app
+
+main = Blueprint('main', __name__)
+
+def create_app(config_object=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_object)
+    
+    # Initialize the database and other extensions
+    db.init_app(app)
+    migrate = Migrate(app, db)
+
+    
+    app.register_blueprint(main, url_prefix='/')  # Register the blueprint with no prefix
+
+    return app
 
 
 
@@ -27,14 +54,15 @@ def is_profile_complete(username):
     return user.profile_complete if user else False
 
 
-@app.route('/')
+# @app.route('/')
+@main.route('/')
 def home():
     # Redirect to dashboard if logged in, else login page
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
         if user and is_profile_complete(user.username):
-            return redirect(url_for('dashboard'))
-    return redirect(url_for('login'))
+            return redirect(url_for('main.dashboard'))
+    return redirect(url_for('main.login'))
 
 
 
@@ -84,7 +112,8 @@ def is_password_valid(password):
 
 
 
-@app.route('/register', methods=['GET', 'POST'])
+# @app.route('/register', methods=['GET', 'POST'])
+@main.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -114,14 +143,15 @@ def register():
         db.session.commit()
 
         flash('Registration successful. Please log in.')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
     return render_template('register.html')
 
 
 
 
-@app.route('/login', methods=['GET', 'POST'])
+# @app.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -135,53 +165,11 @@ def login():
         # Authenticate user
         if authenticate(username, password):
             session['username'] = username  # Store username in session
-            return redirect(url_for('dashboard')) if is_profile_complete(username) else redirect(url_for('profile'))
+            return redirect(url_for('main.dashboard')) if is_profile_complete(username) else redirect(url_for('main.profile'))
         
         flash('Invalid username or password.')
     
     return render_template('login.html')
-
-
-
-# @app.route('/profile', methods=['GET', 'POST'])
-# def profile():
-#     username = session.get('username')
-#     if not username:
-#         flash('User not found. Please log in again.')
-#         return redirect(url_for('login'))
-
-#     user = User.query.filter_by(username=username).first()
-#     if not user:
-#         flash('User not found. Please log in again.')
-#         return redirect(url_for('login'))
-
-#     if request.method == 'POST':
-#         # Retrieve or create profile info
-#         profile_info = user.profile_info
-#         if not profile_info:
-#             profile_info = ProfileInfo(user_id=user.id)
-#             db.session.add(profile_info)
-
-#         # Update user profile info from form data
-#         profile_info.full_name = request.form.get('full_name', profile_info.full_name)
-#         profile_info.address1 = request.form.get('address1', profile_info.address1)
-#         profile_info.address2 = request.form.get('address2', profile_info.address2)
-#         profile_info.city = request.form.get('city', profile_info.city)
-#         profile_info.state = request.form.get('state', profile_info.state)
-#         profile_info.zip_code = request.form.get('zip_code', profile_info.zip_code)
-
-#         # Mark profile as complete if not already set
-#         if not user.profile_complete:
-#             user.profile_complete = True
-
-#         # Commit changes to the database
-#         db.session.commit()
-
-#         flash('Profile Saved. Continue to FuelMetrics.')
-#         return redirect(url_for('profile'))  # Redirect to profile to see changes
-
-#     # Pass profile_complete directly, no need to check separately since it's an attribute of the user
-#     return render_template('profile.html', user=user, profile_complete=user.profile_complete)
 
 
 
@@ -197,17 +185,18 @@ def validate_zip_code(zip_code):
     """Check if the zip code is valid (5 to 9 digits)."""
     return bool(re.search(r'^[0-9]{5}(-[0-9]{4})?$', zip_code))
 
-@app.route('/profile', methods=['GET', 'POST'])
+# @app.route('/profile', methods=['GET', 'POST'])
+@main.route('/profile', methods=['GET', 'POST'])
 def profile():
     username = session.get('username')
     if not username:
         flash('User not found. Please log in again.')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
     user = User.query.filter_by(username=username).first()
     if not user:
         flash('User not found. Please log in again.')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
     if request.method == 'POST':
         full_name = request.form.get('full_name', '').strip()
@@ -249,12 +238,13 @@ def profile():
         db.session.commit()
 
         flash('Profile Saved. Continue to FuelMetrics.')
-        return redirect(url_for('profile'))  # Redirect to profile to see changes
+        return redirect(url_for('main.profile'))  # Redirect to profile to see changes
 
     return render_template('profile.html', user=user, profile_complete=user.profile_complete)
 
 
-@app.route('/dashboard')
+# @app.route('/dashboard')
+@main.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
 
@@ -262,16 +252,17 @@ def dashboard():
 
 
 
-@app.route('/fuel_quote', methods=['GET', 'POST'])
+# @app.route('/fuel_quote', methods=['GET', 'POST'])
+@main.route('/fuel_quote', methods=['GET', 'POST'])
 def fuel_quote():
     if 'username' not in session:
         flash('Please log in to access the fuel quote page.')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
     user = User.query.filter_by(username=session['username']).first()
     if not user:
         flash('Session error, please log in again.')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
     if request.method == 'POST':
         gallons_requested = request.form.get('gallons', type=float)
@@ -300,7 +291,7 @@ def fuel_quote():
         db.session.commit()
 
         flash('Fuel quote saved successfully. View in Quote History')
-        return redirect(url_for('fuel_quote'))  # consider Redirecting to the history page to view the quote
+        return redirect(url_for('main.fuel_quote'))  # consider Redirecting to the history page to view the quote
 
     # If GET request, just display the form with existing user info
     return render_template('fuel_quote.html', profile_info=user.profile_info)
@@ -309,16 +300,17 @@ def fuel_quote():
 
 
 
-@app.route('/fuel_history')
+# @app.route('/fuel_history')
+@main.route('/fuel_history')
 def fuel_history():
     if 'username' not in session:
         flash('Please log in to view fuel quote history.')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
     user = User.query.filter_by(username=session['username']).first()
     if not user:
         flash('User not found. Please login again.')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
     # Fetch user's fuel quote history from the database
     user_quotes = FuelQuote.query.filter_by(user_id=user.id).all()
@@ -327,12 +319,18 @@ def fuel_history():
 
 
 
-@app.route('/logout')
+# @app.route('/logout')
+@main.route('/logout')
 def logout():
     # Remove 'username' from session
     session.pop('username', None)  
     # Redirect to the login page
-    return redirect(url_for('login'))
+    return redirect(url_for('main.login'))
+
+# if __name__ == '__main__':
+#     # app.run(debug=True)
+#     create_app().run()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    create_app().run(debug=True)
+

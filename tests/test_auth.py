@@ -1,0 +1,1 @@
+# Tests for authentication (login/logout/register)

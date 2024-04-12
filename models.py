@@ -2,15 +2,13 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     profile_complete = db.Column(db.Boolean, default=False)
-    profile_info = db.relationship('ProfileInfo', backref='user', uselist=False)
-    fuel_quotes = db.relationship('FuelQuote', backref='user')
-
+    profile_info = db.relationship('ProfileInfo', backref='user', uselist=False, cascade="all, delete-orphan")
+    fuel_quotes = db.relationship('FuelQuote', backref='user', cascade="all, delete-orphan")
 
 class ProfileInfo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -21,7 +19,6 @@ class ProfileInfo(db.Model):
     city = db.Column(db.String(100))
     state = db.Column(db.String(50))
     zip_code = db.Column(db.String(10))
-
 
 class FuelQuote(db.Model):
     id = db.Column(db.Integer, primary_key=True)

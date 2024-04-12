@@ -3,77 +3,29 @@ from models import db, User, FuelQuote, ProfileInfo
 from datetime import datetime
 from config import Config
 from flask_migrate import Migrate
+import bcrypt
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 migrate = Migrate(app, db)
 
-# # Dummy database of users for illustration
-# users_db = {
-#     'user1': {
-#         'password': 'pass1', 'profile_complete': True,
-#         'profile_info': {
-#             'full_name': 'Romina s',
-#             'address1': '3607 washington ave',
-#             'address2': '',
-#             'city': 'Houston',
-#             'state': 'Texas',
-#             'zip_code': '78734',
-#         },
-#         'fuel_quote_history': [
-#             {'date': '2023-03-15', 'gallons_requested': 100, 'total_amount_due': 505,'date_js': '2023-03-15', 'price': '305', 'delivery': '200','price_per_gallon':'3.05'},
-#             {'date': '2023-03-20', 'gallons_requested': 150, 'total_amount_due': 657.5,'date_js': '2023-03-20', 'price': '475.5', 'delivery': '200','price_per_gallon':'3.05'},
-#             {'date': '2023-05-15', 'gallons_requested': 200, 'total_amount_due': 810,'date_js': '2023-03-15', 'price': '305', 'delivery': '200','price_per_gallon':'3.05'},
-#             {'date': '2023-10-20', 'gallons_requested': 150, 'total_amount_due': 657.5,'date_js': '2023-03-20', 'price': '475.5', 'delivery': '200','price_per_gallon':'3.05'},
-#             {'date': '2024-01-15', 'gallons_requested': 200, 'total_amount_due': 810,'date_js': '2023-03-15', 'price': '305', 'delivery': '200','price_per_gallon':'3.05'},
-#             {'date': '2024-03-28', 'gallons_requested': 160, 'total_amount_due': 688,'date_js': '2023-03-20', 'price': '475.5', 'delivery': '200','price_per_gallon':'3.05'}    
-#         ]
-#     },
-#     'user2': {
-#         'password': 'pass2',
-#         'profile_complete': False,
-#         'profile_info': {
-#             'full_name': '',
-#             'address1': '',
-#             'address2': '',
-#             'city': '',
-#             'state': '',
-#             'zip_code': '',
-#         },
-#         'fuel_quote_history': []
-#     }
 
-#     # Add other users 
-# }
 
-# check user authentication 
-# def authenticate(username, password):
-#     user = users_db.get(username)
-#     if user and user['password'] == password:  # Direct password comparison
-#         return True
-#     return False
 
 def authenticate(username, password):
     user = User.query.filter_by(username=username).first()
-    if user and user.password == password:  # Consider hashing the password
+    if user and check_password(user.password, password):  # No extra encoding here
         return True
     return False
 
-#  check if profile is complete 
-# def is_profile_complete(username):
-#     return users_db.get(username, {}).get('profile_complete', False)
+
+
 def is_profile_complete(username):
     user = User.query.filter_by(username=username).first()
     return user.profile_complete if user else False
 
 
-# @app.route('/')
-# def home():
-#     # Redirect to dashboard if logged in, else login page
-#     if 'username' in session:
-#         return redirect(url_for('dashboard'))
-#     return redirect(url_for('login'))
 @app.route('/')
 def home():
     # Redirect to dashboard if logged in, else login page
@@ -84,44 +36,48 @@ def home():
     return redirect(url_for('login'))
 
 
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']   # Hash this password
 
-#         # Check if the username already exists in the dummy database
-#         if username in users_db:
-#             flash('Username already exists. Please choose a different one.')
-#             #return render_template('register.html')
-#             return redirect(url_for('register'))
 
-#         # Proceed with registration if username is not taken
+def hash_password(password):
+    password_bytes = password.encode('utf-8')
+    hashed = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
+    return hashed.decode('utf-8')  # Decoding to string to store in the database as text
+
+
+
+def check_password(stored_hash, provided_password):
+    try:
+        # Ensure both the stored hash and the provided password are in bytes format
+        if isinstance(stored_hash, str):
+            stored_hash = stored_hash.encode('utf-8')
+        provided_password_bytes = provided_password.encode('utf-8')
         
-#         # Save the user with  password in the dummy database
-#         users_db[username] = {'password': password, 'profile_complete': False, 'profile_info': {}}
+        # Check the password
+        return bcrypt.checkpw(provided_password_bytes, stored_hash)
+    except ValueError as e:
+        # Log the error or handle it as needed
+        print(f"Error checking password: {e}")
+        return False
 
-#         flash('Registration successful. Please log in.')
-#         return redirect(url_for('login'))
 
-#     return render_template('register.html')
+
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']   # Hash this password
+        password = request.form['password']   # Get password from form
+        hashed_password = hash_password(password)  # Hash the password
 
-        # Check if the username already exists in the dummy database
+        # Check for existing user
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             flash('Username already exists. Please choose a different one.')
             return redirect(url_for('register'))
 
-        # Proceed with registration if username is not taken
-        
-        # Save the user with  password db
-        new_user = User(username=username, password=password)
+        # Save the new user
+        new_user = User(username=username, password=hashed_password)  # Use hashed password
         db.session.add(new_user)
         db.session.commit()
 
@@ -129,6 +85,10 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html')
+
+
+
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -149,31 +109,6 @@ def login():
     return render_template('login.html')
 
 
-# @app.route('/profile', methods=['GET', 'POST'])
-# def profile():
-    
-#     username = session.get('username')
-#     print(username)
-#     if not username or username not in users_db:
-#         flash('User not found. Please login again.')
-#         return redirect(url_for('login'))
-
-#     #user = users_db.get(username)
-#     user = users_db[username]
-#     print(user)
-#     if request.method == 'POST':
-#         # update user profile info in database 
-
-#         #users_db[username]['profile_complete'] = True
-#         user['profile_info'].update(request.form.to_dict())
-#         user['profile_complete']=True
-#         print(user['profile_complete'])
-#         flash('Profile Saved, continue to FuelMetrics.')  # Flash message
-#         return redirect(url_for('profile'))  # Redirect to profile to see changes 
-
-#     # Check profile completion status on every request
-#     profile_complete = is_profile_complete(username)
-#     return render_template('profile.html',user=user, profile_complete=profile_complete)
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -220,58 +155,7 @@ def profile():
 def dashboard():
     return render_template('dashboard.html')
 
-# @app.route('/fuel_quote', methods=['GET'])
-# def fuel_quote():
-#     # No change needed for form submission handling, as it's done client-side
-#     return render_template('fuel_quote.html')
 
-# @app.route('/fuel_quote', methods=['GET', 'POST'])
-# def fuel_quote():
-#     username = session.get('username')
-#     if not username or username not in users_db:
-#         flash('Please log in to access the fuel quote page.')
-#         return redirect(url_for('login'))
-
-#     if request.method == 'POST':
-#         # Process the submitted form data
-#         gallons_requested = request.form.get('gallons', type=float)
-#         delivery_date = request.form.get('delivery_date')
-        
-#         #delivery fee
-#         deliveryFee = 1.75;
-
-#         #base price calulation
-#         pricePerGallon = 3.05;
-#         basePrice = pricePerGallon * gallons_requested;
-#         estimatedCost = basePrice;
-
-#         #tax fee
-#         taxRate = 0.0775;
-#         taxFee = basePrice * taxRate;
-
-#         #total price
-#         totalPrice = deliveryFee + taxFee + basePrice;
-
-#         # Save the quote to the user's history
-#         users_db[username]['fuel_quote_history'].append({
-#             'date': delivery_date,
-#             'gallons_requested': gallons_requested,
-#             'total_amount_due': totalPrice,
-#             'date_js': delivery_date,
-#             'price': estimatedCost,
-#             'price_per_gallon': pricePerGallon,
-#             'delivery': deliveryFee
-#             #'tax': tax,
-
-#         })
-
-#         flash('Fuel quote saved successfully.\nView in Quote History')
-#         # Redirect to the fuel history page or somewhere else to avoid form resubmission issues
-#         return redirect(url_for('fuel_quote'))
-
-#     # For a GET request, just display the form
-#     user_profile_info = users_db[username]['profile_info']
-#     return render_template('fuel_quote.html', profile_info=user_profile_info)
 
 
 
@@ -320,23 +204,7 @@ def fuel_quote():
 
 
 
-# @app.route('/fuel_history')
-# def fuel_history():
-#     username = session.get('username')
-#     if not username or username not in users_db:
-#         flash('Please log in to view fuel quote history.')
-#         return redirect(url_for('login'))
 
-#     # Fetch user's fuel quote history from the database
-#     user_quotes = users_db.get(username, {}).get('fuel_quote_history', [])
-    
-#     # Format the dates in the fuel quote history for easy handling in JavaScript
-#     for quote in user_quotes:
-#         # Assume the date is stored in 'YYYY-MM-DD' format; adjust if necessary
-#         quote['date_js'] = quote['date']
-        
-
-#     return render_template('fuel_history.html', user_quotes=user_quotes)
 
 @app.route('/fuel_history')
 def fuel_history():

@@ -4,6 +4,7 @@ from datetime import datetime
 from config import Config
 from flask_migrate import Migrate
 import bcrypt
+import re
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -61,23 +62,75 @@ def check_password(stored_hash, provided_password):
 
 
 
+def is_username_valid(username):
+    """Check that the username is between 5 and 25 characters and contains only alphanumeric characters."""
+    if not (5 <= len(username) <= 25):
+        return False, "Username must be between 5 and 25 characters."
+    if not re.match("^[A-Za-z0-9]+$", username):
+        return False, "Username should only contain alphanumeric characters."
+    return True, ""
 
+def is_password_valid(password):
+    """Make sure the password has at least one number, one uppercase letter, one lowercase letter, and is at least 8 characters long."""
+    if len(password) < 8:
+        return False, "Password must be at least 8 characters long."
+    if not re.search("[a-z]", password) or not re.search("[A-Z]", password):
+        return False, "Password must include both uppercase and lowercase letters."
+    if not re.search("[0-9]", password):
+        return False, "Password must contain at least one number."
+    return True, ""
+
+
+
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']   # Get password from form
+#         hashed_password = hash_password(password)  # Hash the password
+
+#         # Check for existing user
+#         existing_user = User.query.filter_by(username=username).first()
+#         if existing_user:
+#             flash('Username already exists. Please choose a different one.')
+#             return redirect(url_for('register'))
+
+#         # Save the new user
+#         new_user = User(username=username, password=hashed_password)  # Use hashed password
+#         db.session.add(new_user)
+#         db.session.commit()
+
+#         flash('Registration successful. Please log in.')
+#         return redirect(url_for('login'))
+
+#     return render_template('register.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']   # Get password from form
-        hashed_password = hash_password(password)  # Hash the password
+        password = request.form['password']
+
+        # Validate username and password
+        username_valid, username_message = is_username_valid(username)
+        if not username_valid:
+            flash(username_message)
+            return render_template('register.html')
+
+        password_valid, password_message = is_password_valid(password)
+        if not password_valid:
+            flash(password_message)
+            return render_template('register.html')
 
         # Check for existing user
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             flash('Username already exists. Please choose a different one.')
-            return redirect(url_for('register'))
+            return render_template('register.html')
 
-        # Save the new user
-        new_user = User(username=username, password=hashed_password)  # Use hashed password
+        # Hash password and save the new user
+        hashed_password = hash_password(password)
+        new_user = User(username=username, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -87,25 +140,41 @@ def register():
     return render_template('register.html')
 
 
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']
+#         if authenticate(username, password):
+#             session['username'] = username  # Store username in session
+#             if is_profile_complete(username):
+#                 return redirect(url_for('dashboard'))
+            
+#             return redirect(url_for('profile'))
+#         else:
+#             flash('Invalid username or password.')
+    
 
-
-
+#     return render_template('login.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
+        # Server-side validation for empty inputs (additional security layer)
+        if not username or not password:
+            flash("Please fill in all fields.")
+            return render_template('login.html')
+
+        # Authenticate user
         if authenticate(username, password):
             session['username'] = username  # Store username in session
-            if is_profile_complete(username):
-                return redirect(url_for('dashboard'))
-            
-            return redirect(url_for('profile'))
-        else:
-            flash('Invalid username or password.')
+            return redirect(url_for('dashboard')) if is_profile_complete(username) else redirect(url_for('profile'))
+        
+        flash('Invalid username or password.')
     
-
     return render_template('login.html')
 
 

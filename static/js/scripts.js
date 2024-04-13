@@ -164,6 +164,31 @@ confirmBtn.addEventListener("click", () => {
 yesBtn.addEventListener("click", () => {
   document.getElementById("confirm_popup").style.display = "none";
   document.getElementById("saved_quote").style.display = "block";
+
+  const gal = parseFloat(fuelGallons.value.trim());
+  const dDate = delivery_dateInput.value.trim();
+  const totPrice = parseFloat(total.textContent.trim());
+
+  const data = {
+    gallons: gal,
+    delivery_date: dDate,
+    total_price: totPrice,
+  };
+
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        console.log("Quote saved successfully");
+      } else {
+        console.log("Error saving quote", xhr.statusText);
+      }
+    }
+  };
+
+  xhr.open("POST", "/fuel_quote", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(JSON.stringify(data));
 });
 
 noBtn.addEventListener("click", () => {

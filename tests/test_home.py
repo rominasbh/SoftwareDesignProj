@@ -1,1 +1,0 @@
-# Tests for the home page and dashboard access

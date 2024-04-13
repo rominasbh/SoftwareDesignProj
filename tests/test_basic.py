@@ -1,7 +1,7 @@
-import pytest
 import sys
 import os
-sys.path.append(os.path.abspath('../'))
+sys.path.append(os.path.abspath('/Users/rominasobhani/Desktop/Software Design/Project')) #change this directory to where your project directory is located
+import pytest
 from app import create_app, hash_password, check_password
 from models import User, ProfileInfo, FuelQuote, db
 from config import TestConfig

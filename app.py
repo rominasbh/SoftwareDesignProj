@@ -6,23 +6,10 @@ from config import Config, TestConfig
 from flask_migrate import Migrate
 import bcrypt
 import re
-
-# app = Flask(__name__)
-# app.config.from_object(Config)
-# db.init_app(app)
-# migrate = Migrate(app, db)
+from functools import wraps
 
 
-# def create_app(test_config=False):
-#     app = Flask(__name__)
-#     if test_config:
-#         app.config.from_object(TestConfig)
-#     else:
-#         app.config.from_object(Config)
-#     # Initialize other extensions and components
-#     db.init_app(app)
-#     migrate = Migrate(app, db)
-#     return app
+
 
 main = Blueprint('main', __name__)
 
@@ -54,14 +41,43 @@ def is_profile_complete(username):
     return user.profile_complete if user else False
 
 
+
+def require_profile_complete(f):
+    @login_required
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' in session:
+            user = User.query.filter_by(username=session['username']).first()
+            if user and not is_profile_complete(user.username):
+                flash('Please complete your profile.')
+                return redirect(url_for('main.profile'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            flash('You need to be logged in to access this page.')
+            return redirect(url_for('main.login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+
+
 # @app.route('/')
 @main.route('/')
+
 def home():
     # Redirect to dashboard if logged in, else login page
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
         if user and is_profile_complete(user.username):
             return redirect(url_for('main.dashboard'))
+        # elif user and not is_profile_complete(user.username):
+        #     return redirect(url_for('main.profile'))
     return redirect(url_for('main.login'))
 
 
@@ -112,7 +128,6 @@ def is_password_valid(password):
 
 
 
-# @app.route('/register', methods=['GET', 'POST'])
 @main.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -150,7 +165,7 @@ def register():
 
 
 
-# @app.route('/login', methods=['GET', 'POST'])
+
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -185,8 +200,9 @@ def validate_zip_code(zip_code):
     """Check if the zip code is valid (5 to 9 digits)."""
     return bool(re.search(r'^[0-9]{5}(-[0-9]{4})?$', zip_code))
 
-# @app.route('/profile', methods=['GET', 'POST'])
+
 @main.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
     username = session.get('username')
     if not username:
@@ -243,8 +259,9 @@ def profile():
     return render_template('profile.html', user=user, profile_complete=user.profile_complete)
 
 
-# @app.route('/dashboard')
+
 @main.route('/dashboard')
+@require_profile_complete
 def dashboard():
     return render_template('dashboard.html')
 
@@ -252,8 +269,9 @@ def dashboard():
 
 
 
-# @app.route('/fuel_quote', methods=['GET', 'POST'])
+
 @main.route('/fuel_quote', methods=['GET', 'POST'])
+@require_profile_complete
 def fuel_quote():
     if 'username' not in session:
         flash('Please log in to access the fuel quote page.')
@@ -300,8 +318,9 @@ def fuel_quote():
 
 
 
-# @app.route('/fuel_history')
+
 @main.route('/fuel_history')
+@require_profile_complete
 def fuel_history():
     if 'username' not in session:
         flash('Please log in to view fuel quote history.')
@@ -319,7 +338,6 @@ def fuel_history():
 
 
 
-# @app.route('/logout')
 @main.route('/logout')
 def logout():
     # Remove 'username' from session

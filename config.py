@@ -2,7 +2,7 @@
 
 class Config(object):
     # SQLALCHEMY_DATABASE_URI = 'postgresql://rominasobhani:romi@localhost/fuelmetrics'
-    SQLALCHEMY_DATABASE_URI = 'postgresql://rominasobhani:romi@[2600:1700:f2f1:4950:8476:3cf4:70fd:879a]:5432/fuelmetrics'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://rominasobhani:romi@8.tcp.ngrok.io:16206/fuelmetrics'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'your_secret_key'
 

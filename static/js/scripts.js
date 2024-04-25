@@ -152,16 +152,29 @@ const newQuoteBtn = document.getElementById("new_quote");
 // });
 // confirmBtn.addEventListener("click", updateFuelQuote);
 
+// confirmBtn.addEventListener("click", () => {
+//   const gallonsInput = document.getElementById("gallons").value.trim();
+//   const deliveryDateInput = document
+//     .getElementById("delivery_date")
+//     .value.trim();
+//   if (gallonsInput !== "" && deliveryDateInput !== "") {
+//     document.getElementById("confirm_popup").style.display = "block";
+//     updateFuelQuote(); // Call the updateFuelQuote function only if inputs are valid
+//   } else {
+//     alert("Please enter values for gallons and delivery date.");
+//   }
+// });
+
 confirmBtn.addEventListener("click", () => {
   const gallonsInput = document.getElementById("gallons").value.trim();
-  const deliveryDateInput = document
-    .getElementById("delivery_date")
-    .value.trim();
-  if (gallonsInput !== "" && deliveryDateInput !== "") {
+  const deliveryDateInput = document.getElementById("delivery_date").value.trim();
+  const isValidDate = validateDate();
+
+  if (gallonsInput !== "" && deliveryDateInput !== "" && isValidDate) {
     document.getElementById("confirm_popup").style.display = "block";
     updateFuelQuote(); // Call the updateFuelQuote function only if inputs are valid
   } else {
-    alert("Please enter values for gallons and delivery date.");
+    alert("Please enter valid values for gallons and delivery date.");
   }
 });
 

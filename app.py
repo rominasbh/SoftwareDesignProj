@@ -283,33 +283,53 @@ def fuel_quote():
         return redirect(url_for('main.login'))
 
     if request.method == 'POST':
-        gallons_requested = request.form.get('gallons', type=float)
-        delivery_date_str = request.form.get('delivery_date')
-        delivery_date = datetime.strptime(delivery_date_str, '%Y-%m-%d')
-
-        # Assuming deliveryFee, pricePerGallon, and taxRate are constants or derived from somewhere
+        #delivery fee
         deliveryFee = 1.75
+        #base price 
         pricePerGallon = 3.05
+        #tax rate
         taxRate = 0.0775
 
-        basePrice = pricePerGallon * gallons_requested
-        taxFee = basePrice * taxRate
-        totalPrice = deliveryFee + taxFee + basePrice
+        if request.json:
+            data = request.get_json()
+            gallons_requested = data.get('gallons')
+            delivery_date_str = data.get('delivery_date')
+            total_price = data.get('total_price')
 
-        # Create and save the new fuel quote
-        new_quote = FuelQuote(
-            user_id=user.id,
-            gallons_requested=gallons_requested,
-            delivery_date=delivery_date,
-            total_amount_due=totalPrice,
-            price_per_gallon=pricePerGallon,
-            delivery_fee=deliveryFee
-        )
-        db.session.add(new_quote)
-        db.session.commit()
+            #do the calculations for assurance again
+            basePrice = pricePerGallon * gallons_requested
+            estimatedCost = basePrice
+            taxFee = basePrice * taxRate
 
-        flash('Fuel quote saved successfully. View in Quote History')
-        return redirect(url_for('main.fuel_quote'))  # consider Redirecting to the history page to view the quote
+            #total price
+            totalPrice = deliveryFee + taxFee + basePrice
+            #may need some error thrown if calculated totalprice not same as one recieved from js
+
+            # Convert the delivery date string to a datetime object
+            #delivery_date = datetime.strptime(delivery_date_str, '%Y-%m-%d')
+            # Convert to date
+            delivery_date_obj = datetime.strptime(delivery_date_str, "%Y-%m-%d").date()  
+            
+            
+
+            # Create and save the new fuel quote
+            # Assumed user identification
+            user = User.query.filter_by(username=session['username']).first()
+            if user:
+                new_quote = FuelQuote(
+                    user_id=user.id,
+                    gallons_requested=gallons_requested,
+                    delivery_date=delivery_date_obj,
+                    total_amount_due=totalPrice, # use the recalculated val for accuracy
+                    price_per_gallon = pricePerGallon,
+                    delivery_fee = deliveryFee
+                )
+                db.session.add(new_quote)
+                db.session.commit()
+                flash('Fuel quote saved successfully.')
+            else:
+                flash('Session error, please log in again.')
+                return redirect(url_for('main.login')) 
 
     # If GET request, just display the form with existing user info
     return render_template('fuel_quote.html', profile_info=user.profile_info)
@@ -332,8 +352,9 @@ def fuel_history():
         return redirect(url_for('main.login'))
 
     # Fetch user's fuel quote history from the database
-    user_quotes = FuelQuote.query.filter_by(user_id=user.id).all()
-
+    # user_quotes = FuelQuote.query.filter_by(user_id=user.id).all()
+    # Order quotes by date in descending order
+    user_quotes = FuelQuote.query.filter_by(user_id=user.id).order_by(FuelQuote.delivery_date.desc()).all()
     return render_template('fuel_history.html', user_quotes=user_quotes)
 
 

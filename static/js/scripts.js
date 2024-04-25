@@ -10,6 +10,7 @@ const total = document.getElementById("total");
 const tax = document.getElementById("tax-shown");
 const shownGallons = document.getElementById("gallons-shown");
 
+
 function validateForm() {
   gallonsError.style.display = "none";
   if (isNaN(parseFloat(fuelGallons.value)) || !isFinite(fuelGallons.value)) {
@@ -24,6 +25,8 @@ function validateForm() {
 function updateFuelQuote() {
   const gallon_value = fuelGallons.value.trim();
   const deliveryDateValue = delivery_dateInput.value.trim();
+  console.log("the date in update: " + deliveryDateValue);
+
 
   if (
     gallon_value != "" &&
@@ -99,6 +102,7 @@ function validateDate() {
   // console.log("Current Date: " + curr_day.toLocaleDateString());
   // console.log("Adjusted Date: " + adjustedDay.toLocaleDateString());
   console.log("Selected Date: " + selectedDate.toLocaleDateString());
+  console.log("the del input var: " + delivery_dateInput.value);
 
   if (selectedDate <= adjustedDay) {
     console.log("Error Date: " + selectedDate.toLocaleDateString());
@@ -167,6 +171,7 @@ yesBtn.addEventListener("click", () => {
 
   const gal = parseFloat(fuelGallons.value.trim());
   const dDate = delivery_dateInput.value.trim();
+  console.log("the del input @ yes: " + dDate);
   const totPrice = parseFloat(total.textContent.trim());
 
   const data = {

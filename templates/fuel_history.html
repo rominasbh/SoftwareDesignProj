@@ -49,6 +49,7 @@
         <div class="filter-container">
             <label for="time-filter">Filter by Time:</label>
             <select id="time-filter" onchange="filterQuotes()">
+                <option value="" disabled selected>Select a time range</option>
                 <option value="all">All</option>
                 <option value="10days">Past 10 days</option>
                 <option value="30days">Past 30 days</option>
@@ -56,7 +57,15 @@
                 <option value="6months">Past 6 months</option>
                 <option value="1year">Past year</option>
             </select>
+            <!-- Date Range -->
+        <div>    
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" onchange="filterQuotes()">
         </div>
+
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" onchange="filterQuotes()">
+    </div>
         <!-- Output of the filter in a table -->
         <table class="quote-table">
             <thead>
@@ -72,10 +81,10 @@
             <tbody>
                 {% for quote in user_quotes %}
                 <tr class="quote-item"> <!-- Add the quote-item class here -->
-                    <td>{{ quote.date }}</td>
+                    <td>{{ quote.delivery_date }}</td>
                     <td>{{ quote.gallons_requested }}</td>
                     <td>{{ quote.price_per_gallon }}</td>
-                    <td>{{ quote.delivery }}</td>
+                    <td>{{ quote.delivery_fee }}</td>
                     <td>{{ quote.total_amount_due }}</td>
                     <!-- Add more table cells as needed -->
                 </tr>
@@ -95,34 +104,50 @@
 
     <script>
         function filterQuotes() {
-    const filterValue = document.getElementById('time-filter').value;
-    const quoteRows = document.querySelectorAll('.quote-table tbody tr');
+            const filterValue = document.getElementById('time-filter').value;
+            const startDateInput = document.getElementById('start-date');
+            const endDateInput = document.getElementById('end-date');
+            const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
+            const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
+            const quoteRows = document.querySelectorAll('.quote-table tbody tr');
 
-    const currentDate = new Date();
+            const currentDate = new Date();
+            
 
-    quoteRows.forEach(row => {
-        const quoteDate = new Date(row.querySelector('td:first-child').textContent); // Extracting date from the first column of the row
+            quoteRows.forEach(row => {
+                const quoteDate = new Date(row.querySelector('td:first-child').textContent); // Extracting date from the first column of the row
 
-        switch (filterValue) {
-            case '10days':
-                row.style.display = quoteDate > new Date(currentDate - 10 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
-                break;
-            case '30days':
-                row.style.display = quoteDate > new Date(currentDate - 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
-                break;
-            case '3months':
-                row.style.display = quoteDate > new Date(currentDate - 3 * 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
-                break;
-            case '6months':
-                row.style.display = quoteDate > new Date(currentDate - 6 * 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
-                break;
-            case '1year':
-                row.style.display = quoteDate > new Date(currentDate - 12 * 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
-                break;
-            default:
-                row.style.display = 'table-row';
-        }
-    });
+                // If both start and end dates are specified, filter by range
+                if (startDate && endDate) {
+                    row.style.display = (quoteDate >= startDate && quoteDate <= endDate) ? 'table-row' : 'none';
+                    startDateInput.value = '';
+                    endDateInput.value = '';
+                } else {
+                    // Otherwise, filter by the selected value
+                    switch (filterValue) {
+                        // ...
+                        case '10days':
+                            row.style.display = quoteDate > new Date(currentDate - 10 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                            break;
+                        case '30days':
+                            row.style.display = quoteDate > new Date(currentDate - 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                            break;
+                        case '3months':
+                            row.style.display = quoteDate > new Date(currentDate - 3 * 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                            break;
+                        case '6months':
+                            row.style.display = quoteDate > new Date(currentDate - 6 * 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                            break;
+                        case '1year':
+                            row.style.display = quoteDate > new Date(currentDate - 12 * 30 * 24 * 60 * 60 * 1000) ? 'table-row' : 'none';
+                            break;
+                        default:
+                            row.style.display = 'table-row';
+                    }
+                }
+    
+            });       
+    
 }
 
     </script>

@@ -30,7 +30,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('gallons_requested', sa.Float(), nullable=False),
-    sa.Column('delivery_date', sa.DateTime(), nullable=False),
+    sa.Column('delivery_date', sa.Date(), nullable=False),
     sa.Column('total_amount_due', sa.Numeric(precision=10, scale=2), nullable=True),
     sa.Column('price_per_gallon', sa.Numeric(precision=10, scale=2), nullable=True),
     sa.Column('delivery_fee', sa.Numeric(precision=10, scale=2), nullable=True),
@@ -59,3 +59,4 @@ def downgrade():
     op.drop_table('fuel_quote')
     op.drop_table('user')
     # ### end Alembic commands ###
+

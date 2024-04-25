@@ -24,7 +24,7 @@ class FuelQuote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     gallons_requested = db.Column(db.Float, nullable=False)
-    delivery_date = db.Column(db.DateTime, nullable=False)
+    delivery_date = db.Column(db.Date, nullable=False)
     total_amount_due = db.Column(db.Numeric(10, 2))
     price_per_gallon = db.Column(db.Numeric(10, 2))
     delivery_fee = db.Column(db.Numeric(10, 2))

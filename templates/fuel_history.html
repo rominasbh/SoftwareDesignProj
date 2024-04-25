@@ -47,6 +47,7 @@
     <div class="container filter-output-container">
         <!-- Filter -->
         <div class="filter-container">
+            <div>
             <label for="time-filter">Filter by Time:</label>
             <select id="time-filter" onchange="filterQuotes()">
                 <option value="" disabled selected>Select a time range</option>
@@ -57,11 +58,19 @@
                 <option value="6months">Past 6 months</option>
                 <option value="1year">Past year</option>
             </select>
-            <!-- Date Range -->
-        <div>    
-            <label for="start-date">Start Date:</label>
-            <input type="date" id="start-date" onchange="filterQuotes()">
         </div>
+            <div class="sort-container">
+                <label for="sort-order">Order Date:</label>
+                <select id="sort-order" onchange="sortQuotes()">
+                    <option value="desc">Descending</option>
+                    <option value="asc">Ascending</option>
+                </select>
+            </div>
+            <!-- Date Range -->
+            <div>    
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" onchange="filterQuotes()">
+            </div>
 
             <label for="end-date">End Date:</label>
             <input type="date" id="end-date" onchange="filterQuotes()">
@@ -151,6 +160,31 @@
 }
 
     </script>
+    <script>
+
+    function sortQuotes() {
+        const sortOrder = document.getElementById('sort-order').value;
+        const quoteTable = document.querySelector('.quote-table tbody');
+        const quoteRows = Array.from(quoteTable.querySelectorAll('tr'));
+    
+        // Sort the rows based on the date in the first cell
+        quoteRows.sort((a, b) => {
+            const dateA = new Date(a.querySelector('td:first-child').textContent);
+            const dateB = new Date(b.querySelector('td:first-child').textContent);
+    
+            return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+        });
+    
+        // Remove all rows from the table
+        while (quoteTable.firstChild) {
+            quoteTable.firstChild.remove();
+        }
+    
+        // Add the sorted rows back to the table
+        quoteRows.forEach(row => quoteTable.appendChild(row));
+    }
+</script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

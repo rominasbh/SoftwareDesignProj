@@ -9,6 +9,11 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet" />
     <link rel="stylesheet" href="../static/css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600;700&display=swap"
+      rel="stylesheet" />
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
@@ -112,16 +117,22 @@
         <h2>Fuel Quote</h2>
         <div class="quote-form">
           <div class="quote-details">
-            <p><span id="client-name">--</span></p>
-            <p>$<span id="total">--</span></p>
-            <p style="font-weight: bold">DUE TODAY</p>
-            <p><span id="client-location">--</span></p>
+            <p>
+              <span id="client-name">{{profile_info.full_name}}</span>
+            </p>
+            <div id="for-total">
+              <p>
+                <span id="dollarsign" class="crimson-text-semibold">$</span
+                ><span id="total" class="crimson-text-bold">--</span>
+              </p>
+              <p style="font-weight: bold">DUE TODAY</p>
+            </div>
+            <!-- <p><span id="client-location">--</span></p> -->
             <p>Estimated Cost: $<span id="cost-shown">--</span></p>
             <p>Gallons Requested: <span id="gallons-shown">--</span></p>
             <p>
               Price Per Gallon: $<span id="price-shown">--</span> per gallon
             </p>
-            <p>Profit Margin: <span id="profit-margin">--</span>%</p>
             <p>Delivery Date: <span id="delivery-shown">--</span></p>
             <p>Tax: $<span id="tax-shown">--</span></p>
           </div>

@@ -281,6 +281,10 @@ def fuel_quote():
     if not user:
         flash('Session error, please log in again.')
         return redirect(url_for('main.login'))
+    
+    fullName = None
+    if user.profile_info:
+        fullName = user.profile_info.full_name
 
     if request.method == 'POST':
         #delivery fee
@@ -332,10 +336,7 @@ def fuel_quote():
                 return redirect(url_for('main.login')) 
 
     # If GET request, just display the form with existing user info
-    return render_template('fuel_quote.html', profile_info=user.profile_info)
-
-
-
+    return render_template('fuel_quote.html', profile_info=user.profile_info, fullName=fullName)
 
 
 

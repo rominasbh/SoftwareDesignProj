@@ -9,7 +9,7 @@ const delivery = document.getElementById("delivery-shown");
 const total = document.getElementById("total");
 const tax = document.getElementById("tax-shown");
 const shownGallons = document.getElementById("gallons-shown");
-
+const fullName = userName.textContent;
 
 function validateForm() {
   gallonsError.style.display = "none";
@@ -22,11 +22,14 @@ function validateForm() {
   return true;
 }
 
+function formatNumberWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function updateFuelQuote() {
   const gallon_value = fuelGallons.value.trim();
   const deliveryDateValue = delivery_dateInput.value.trim();
   console.log("the date in update: " + deliveryDateValue);
-
 
   if (
     gallon_value != "" &&
@@ -51,13 +54,21 @@ function updateFuelQuote() {
     //total price
     const totalPrice = deliveryFee + taxFee + basePrice;
 
+    const formattedTotal = formatNumberWithCommas(totalPrice);
+    const estimateFormatted = formatNumberWithCommas(estimatedCost);
+    const gallonsFormatted = formatNumberWithCommas(gallons);
+
     //update display
-    costDisplay.innerHTML = `${estimatedCost.toFixed(2)}`;
+    userName.innerHTML = `${fullName}`;
+    // costDisplay.innerHTML = `${estimatedCost.toFixed(2)}`;
+    costDisplay.innerHTML = `${estimateFormatted}`;
     price.innerHTML = `${pricePerGallon.toFixed(2)}`;
     delivery.innerHTML = `${deliveryFee.toFixed(2)}`;
-    total.innerHTML = `${totalPrice.toFixed(2)}`;
+    // total.innerHTML = `${totalPrice.toFixed(2)}`;
+    total.innerHTML = `${formattedTotal}`;
     tax.innerHTML = `${taxFee.toFixed(2)}`;
-    shownGallons.innerHTML = `${gallons.toFixed(2)}`;
+    // shownGallons.innerHTML = `${gallons.toFixed(2)}`;
+    shownGallons.innerHTML = `${gallonsFormatted}`;
   } else {
     costDisplay.innerHTML = "--";
     price.innerHTML = "--";
@@ -139,6 +150,7 @@ function gallonDateValidation() {
 }
 
 fuelGallons.addEventListener("input", gallonDateValidation);
+fuelGallons.addEventListener("input", validateForm);
 delivery_dateInput.addEventListener("input", gallonDateValidation);
 
 const confirmBtn = document.getElementById("confirm-quote");
@@ -167,7 +179,9 @@ const newQuoteBtn = document.getElementById("new_quote");
 
 confirmBtn.addEventListener("click", () => {
   const gallonsInput = document.getElementById("gallons").value.trim();
-  const deliveryDateInput = document.getElementById("delivery_date").value.trim();
+  const deliveryDateInput = document
+    .getElementById("delivery_date")
+    .value.trim();
   const isValidDate = validateDate();
 
   if (gallonsInput !== "" && deliveryDateInput !== "" && isValidDate) {

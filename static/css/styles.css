@@ -12,6 +12,19 @@ html {
   font-family: Arial, sans-serif;
 }
 
+/* Font Styles */
+.crimson-text-semibold {
+  font-family: "Crimson Text", serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.crimson-text-bold {
+  font-family: "Crimson Text", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
 /* Header Styles */
 header {
   background-color: #007bff;
@@ -219,7 +232,7 @@ body {
 
 .fuel_quote-container #state {
   /* border: 1px solid blue; */
-  width: 10%;
+  width: 12%;
 }
 
 .fuel_quote-container #zip_code {
@@ -269,6 +282,33 @@ input[type="date"] {
   width: 100%;
   align-items: center;
   justify-content: center;
+}
+
+.fuel_quote-container #quote-details {
+  /* border: solid 1px black; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.fuel_quote-container #for-total {
+  border: solid 1px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.fuel_quote-container #client-name {
+  font-size: 20px;
+}
+
+.fuel_quote-container #dollarsign {
+  font-size: 28px;
+  font-weight: bold;
 }
 
 .fuel_quote-container #total {
